@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    kotlin("plugin.serialization") version "+"
+    id("kotlin-kapt")
 }
 
 android {
@@ -56,4 +58,38 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    //nav
+    implementation("androidx.navigation:navigation-compose:+")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:+")
+
+    //work manager
+    implementation("androidx.work:work-runtime:+")
+    implementation("androidx.work:work-runtime-ktx:+")
+
+    //retrofit & glide
+    implementation("com.squareup.retrofit2:retrofit:+")
+    implementation("com.squareup.retrofit2:converter-gson:+")
+
+    annotationProcessor("com.github.bumptech.glide:compiler:+")
+    implementation("com.github.bumptech.glide:glide:+")
+
+    // Glide Integration for Jetpack Compose
+    implementation("com.github.skydoves:landscapist-glide:+")
+
+    //Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:+")
+
+    //Room
+    implementation("androidx.room:room-runtime:+")
+    implementation("androidx.room:room-ktx:+")
+    kapt("androidx.room:room-compiler:+")
+
+    // ViewModel & livedata
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose-android:+")
+    implementation("androidx.lifecycle:lifecycle-extensions:+")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:+")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:+")
+
+    //livedata
+    implementation("androidx.compose.runtime:runtime-livedata:+")
 }
