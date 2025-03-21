@@ -58,15 +58,16 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    //nav
+
+    //Nav
     implementation("androidx.navigation:navigation-compose:+")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:+")
 
-    //work manager
+    //Work manager
     implementation("androidx.work:work-runtime:+")
     implementation("androidx.work:work-runtime-ktx:+")
 
-    //retrofit & glide
+    //Retrofit & glide
     implementation("com.squareup.retrofit2:retrofit:+")
     implementation("com.squareup.retrofit2:converter-gson:+")
 
@@ -84,12 +85,19 @@ dependencies {
     implementation("androidx.room:room-ktx:+")
     kapt("androidx.room:room-compiler:+")
 
-    // ViewModel & livedata
+    //ViewModel & livedata
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose-android:+")
     implementation("androidx.lifecycle:lifecycle-extensions:+")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:+")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:+")
 
-    //livedata
+    //Livedata
     implementation("androidx.compose.runtime:runtime-livedata:+")
+
+    //Lottie
+    implementation("com.airbnb.android:lottie-compose:+")
+
+    //Google map
+    implementation("com.google.android.gms:play-services-location:21.1.0")
+    implementation("com.google.maps.android:maps-compose:6.4.1")
 }
