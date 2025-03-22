@@ -42,6 +42,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.weatherapp.core.AppColors
 import com.example.weatherapp.core.AppConst
 import com.example.weatherapp.core.Response
+import com.example.weatherapp.core.getAnmiBK
 import com.example.weatherapp.core.models.DailyForecast
 import com.example.weatherapp.core.models.ThreeHourForecast
 import com.example.weatherapp.core.models.WeatherModel
@@ -53,7 +54,7 @@ import java.util.Locale
 
 @Composable
 fun HomeView(viewModel: HomeViewModel) {
-    //val gradientColors = getGradientColors("Sunny")
+
     val scrollState = rememberScrollState()
 
     val current3HourForecast by viewModel.current3HourForecast.observeAsState(emptyList())
@@ -68,15 +69,13 @@ fun HomeView(viewModel: HomeViewModel) {
         }
 
         dataState is Response.Failure -> {
-            Text(
-                "There is an error ${viewModel.toastEvent}",
-                color = Color.Red
-            )
+            CustomError(viewModel)
         }
 
         dataState is Response.Success -> {
             val weatherModel = (dataState as Response.Success).data
-            LottieBackgroundBox(lottieResId = "rain_bk.json") {
+            val anmiBK = getAnmiBK(weatherModel.weather[0].description)
+            LottieBackgroundBox(anmiBK) {
                 Column(
                     Modifier
                         .fillMaxSize()
@@ -97,6 +96,23 @@ fun HomeView(viewModel: HomeViewModel) {
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun CustomError(viewModel: HomeViewModel) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(15.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            "There is an error ${viewModel.toastEvent.collectAsState(String()).value}",
+            color = Color.Red,
+            fontSize = 30.sp
+        )
     }
 }
 
@@ -125,15 +141,18 @@ fun CustomAnmiLoading() {
 private fun CustomTitle(weatherModel: WeatherModel) {
     val dateFormat = SimpleDateFormat("EEEE, d MMMM yyyy | h:mm a", Locale.getDefault())
     val currentDate = dateFormat.format(Date())
+    var txtColor = Color.White
+    if (weatherModel.weather[0].description == "Snow")
+        txtColor = Color.Black
     Text(
         "${weatherModel.name}, ${weatherModel.sys.country}",
         fontSize = 25.sp,
-        color = Color.White
+        color = txtColor
     )
     Text(
         currentDate,
         fontSize = 18.sp,
-        color = Color.White
+        color = txtColor
     )
 }
 
@@ -141,7 +160,7 @@ private fun CustomTitle(weatherModel: WeatherModel) {
 @Composable
 private fun CustomCountryDegree(weatherModel: WeatherModel) {
     Column(
-        horizontalAlignment = Alignment.End
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
             Modifier.fillMaxSize(),
@@ -181,7 +200,7 @@ private fun CustomCountryDegree(weatherModel: WeatherModel) {
 
 @Composable
 private fun CustomMoreDevitalises(weatherModel: WeatherModel) {
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp + 40.dp
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp + 60.dp
     Box(
         modifier = Modifier
             .shadow(10.dp, RoundedCornerShape(15.dp))
@@ -266,10 +285,13 @@ private fun CustomDetailItem(
 
 @Composable
 private fun CustomStatus(weatherModel: WeatherModel) {
+    var txtColor = Color.White
+    if (weatherModel.weather[0].description == "Mist")
+        txtColor = Color.Black
     Text(
         weatherModel.weather[0].description,
-        fontSize = 22.sp,
-        color = AppColors.Gray300
+        fontSize = 30.sp,
+        color = txtColor
     )
     Spacer(Modifier.height(5.dp))
     Text(

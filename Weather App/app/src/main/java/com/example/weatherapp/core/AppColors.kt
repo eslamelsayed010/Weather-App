@@ -13,4 +13,11 @@ object AppColors {
     val Gray700 = Color(0xFF616161)
     val Gray800 = Color(0xFF424242)
     val Gray900 = Color(0xFF212121)
+    //BK color
+    val SunnyBK = Color(0xFF305d3f)
+    val RainyBK = Color(0xff144761)
+    val CloudsBK = Color(0xff5daee0)
+    val MistBK = Color(0xffdbc5a6)
+    val ThunderstormBK = Color(0xff305d3f)
+    val SnowBK = Color(0xff2b454e)
 }

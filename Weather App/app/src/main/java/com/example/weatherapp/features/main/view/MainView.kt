@@ -13,6 +13,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +26,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.weatherapp.core.Response
+import com.example.weatherapp.core.getAnmiBK
+import com.example.weatherapp.core.getNavBK
 import com.example.weatherapp.features.home.view.HomeView
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 
@@ -32,7 +36,7 @@ import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 fun MainView(viewModel: HomeViewModel) {
     val navController = rememberNavController()
     Scaffold(
-        bottomBar = { BottomNavBar(navController) }
+        bottomBar = { BottomNavBar(navController, viewModel) }
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {
             NavigationGraph(navController, viewModel)
@@ -41,7 +45,13 @@ fun MainView(viewModel: HomeViewModel) {
 }
 
 @Composable
-fun BottomNavBar(navController: NavHostController) {
+fun BottomNavBar(navController: NavHostController, viewModel: HomeViewModel) {
+    val dataState by viewModel.weatherModelResponse.collectAsState()
+    var backgroundColor = Color.Gray
+    if (dataState is Response.Success){
+        val weatherModel = (dataState as Response.Success).data
+        backgroundColor = getNavBK(weatherModel.weather[0].description)
+    }
     val items = listOf(
         BottomNavItem("Home", Icons.Default.Home, "home"),
         BottomNavItem("Profile", Icons.Default.Person, "profile"),
@@ -50,7 +60,7 @@ fun BottomNavBar(navController: NavHostController) {
 
     var selectedItem by remember { mutableIntStateOf(0) }
 
-    NavigationBar(containerColor = Color(0xff144761)) {
+    NavigationBar(containerColor = backgroundColor) {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
                 icon = {
