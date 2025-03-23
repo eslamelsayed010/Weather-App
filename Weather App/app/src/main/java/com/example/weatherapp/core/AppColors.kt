@@ -29,4 +29,5 @@ object AppColors {
     //Cat
     val IconCat = Color(0xff94d693)
     val TitleCat = Color(0xff0091e3)
+    val RadioBtn = Color(0xFF6200EE)
 }

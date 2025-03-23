@@ -147,7 +147,7 @@ fun CustomRadioButtonGroup(radioOptions: List<String>) {
                     selected = (option == selectedOption),
                     onClick = { selectedOption = option },
                     colors = RadioButtonDefaults.colors(
-                        selectedColor = Color(0xFF6200EE),
+                        selectedColor = AppColors.IconCat,
                         unselectedColor = Color.LightGray,
                         disabledSelectedColor = Color.Gray.copy(alpha = 0.6f),
                         disabledUnselectedColor = Color.Gray.copy(alpha = 0.38f)
