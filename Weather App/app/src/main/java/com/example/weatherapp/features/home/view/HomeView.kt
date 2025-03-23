@@ -41,6 +41,10 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.weatherapp.core.AppColors
 import com.example.weatherapp.core.AppConst
+import com.example.weatherapp.core.CustomAnmiLoading
+import com.example.weatherapp.core.CustomError
+import com.example.weatherapp.core.DashedDivider
+import com.example.weatherapp.core.LottieBackgroundBox
 import com.example.weatherapp.core.Response
 import com.example.weatherapp.core.getAnmiBK
 import com.example.weatherapp.core.models.DailyForecast
@@ -100,44 +104,6 @@ fun HomeView(viewModel: HomeViewModel) {
 }
 
 @Composable
-private fun CustomError(viewModel: HomeViewModel) {
-    Column(
-        Modifier
-            .fillMaxSize()
-            .padding(15.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            "There is an error ${viewModel.toastEvent.collectAsState(String()).value}",
-            color = Color.Red,
-            fontSize = 30.sp
-        )
-    }
-}
-
-@Composable
-fun CustomAnmiLoading() {
-    val composition by rememberLottieComposition(LottieCompositionSpec.Asset("loading.json"))
-    val progress by animateLottieCompositionAsState(
-        composition = composition,
-        iterations = LottieConstants.IterateForever
-    )
-    Column(
-        Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        LottieAnimation(
-            composition = composition,
-            progress = { progress },
-            modifier = Modifier.size(150.dp),
-            contentScale = ContentScale.FillBounds
-        )
-    }
-}
-
-@Composable
 private fun CustomTitle(weatherModel: WeatherModel) {
     val dateFormat = SimpleDateFormat("EEEE, d MMMM yyyy | h:mm a", Locale.getDefault())
     val currentDate = dateFormat.format(Date())
@@ -175,13 +141,13 @@ private fun CustomCountryDegree(weatherModel: WeatherModel) {
                     modifier = Modifier
                         .padding(horizontal = 20.dp)
                         .align(Alignment.CenterHorizontally),
-                    fontSize = 40.sp,
+                    fontSize = 30.sp,
                     color = Color.Black
                 )
                 Text(
                     String.format("%.2f%s", weatherModel.main.temp, AppConst.TEMP_DEGREE),
                     Modifier.align(Alignment.CenterHorizontally),
-                    fontSize = 70.sp,
+                    fontSize = 60.sp,
                     color = Color.Black
                 )
 
@@ -189,7 +155,7 @@ private fun CustomCountryDegree(weatherModel: WeatherModel) {
             GlideImage(
                 imageModel = { AppConst.IMAGE_URL + weatherModel.weather[0].icon + AppConst.IMAGE_EXE },
                 modifier = Modifier
-                    .size(150.dp)
+                    .size(140.dp)
             )
 
         }
@@ -332,27 +298,6 @@ private fun CustomTitleDivider(txt: String) {
 }
 
 @Composable
-fun DashedDivider() {
-    Canvas(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(4f.dp)
-    ) {
-        val width = size.width
-        var startX = 0f
-        while (startX < width) {
-            drawLine(
-                color = AppColors.Gray300,
-                start = Offset(startX, 0f),
-                end = Offset(startX + 40f, 0f),
-                strokeWidth = 4f
-            )
-            startX += 40f + 20f
-        }
-    }
-}
-
-@Composable
 fun CustomHourItem(threeHourForecast: ThreeHourForecast) {
     Box(
         modifier = Modifier
@@ -452,30 +397,3 @@ private fun Custom5NextDayItem(dailyForecast: DailyForecast) {
         }
     }
 }
-
-@Composable
-fun LottieBackgroundBox(
-    lottieResId: String = "rain_bk.json",
-    content: @Composable BoxScope.() -> Unit
-) {
-
-    val composition by rememberLottieComposition(LottieCompositionSpec.Asset(lottieResId))
-    val progress by animateLottieCompositionAsState(
-        composition = composition,
-        iterations = LottieConstants.IterateForever
-    )
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-
-    ) {
-        LottieAnimation(
-            composition = composition,
-            progress = { progress },
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillBounds
-        )
-        content()
-    }
-}
-
