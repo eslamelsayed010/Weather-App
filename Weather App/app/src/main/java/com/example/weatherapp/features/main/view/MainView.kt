@@ -26,11 +26,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.weatherapp.core.AppColors
 import com.example.weatherapp.core.Response
-import com.example.weatherapp.core.getAnmiBK
 import com.example.weatherapp.core.getNavBK
 import com.example.weatherapp.features.home.view.HomeView
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
+import com.example.weatherapp.features.setting.view.SettingView
 
 @Composable
 fun MainView(viewModel: HomeViewModel) {
@@ -47,11 +48,18 @@ fun MainView(viewModel: HomeViewModel) {
 @Composable
 fun BottomNavBar(navController: NavHostController, viewModel: HomeViewModel) {
     val dataState by viewModel.weatherModelResponse.collectAsState()
-    var backgroundColor = Color.Gray
-    if (dataState is Response.Success){
+
+    var baseBackgroundColor = Color.Gray
+    if (dataState is Response.Success) {
         val weatherModel = (dataState as Response.Success).data
-        backgroundColor = getNavBK(weatherModel.weather[0].description)
+        baseBackgroundColor = getNavBK(weatherModel.weather[0].description)
     }
+    val colors = listOf(
+        baseBackgroundColor,
+        Color(0xFF4CAF50),
+        AppColors.SettingNav
+    )
+
     val items = listOf(
         BottomNavItem("Home", Icons.Default.Home, "home"),
         BottomNavItem("Profile", Icons.Default.Person, "profile"),
@@ -59,6 +67,7 @@ fun BottomNavBar(navController: NavHostController, viewModel: HomeViewModel) {
     )
 
     var selectedItem by remember { mutableIntStateOf(0) }
+    val backgroundColor = colors[selectedItem]
 
     NavigationBar(containerColor = backgroundColor) {
         items.forEachIndexed { index, item ->
@@ -86,7 +95,7 @@ fun NavigationGraph(navController: NavHostController, viewModel: HomeViewModel) 
     NavHost(navController, startDestination = "home") {
         composable("home") { HomeView(viewModel) }
         composable("profile") { ScreenContent("Profile Screen") }
-        composable("settings") { ScreenContent("Settings Screen") }
+        composable("settings") { SettingView() }
     }
 }
 
