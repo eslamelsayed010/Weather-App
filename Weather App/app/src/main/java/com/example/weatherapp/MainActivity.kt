@@ -6,11 +6,11 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModelProvider
+import com.example.weatherapp.core.AppColors
+import com.example.weatherapp.core.CustomAnmiLoading
 import com.example.weatherapp.core.WeatherRepo
-import com.example.weatherapp.features.home.view.CustomAnmiLoading
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.home.viewmodel.MyFactory
 import com.example.weatherapp.features.main.view.MainView
@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.statusBarColor = Color(0xff144761).toArgb()
+        window.statusBarColor = AppColors.SettingNav.toArgb()
         locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
 
         setContent {
