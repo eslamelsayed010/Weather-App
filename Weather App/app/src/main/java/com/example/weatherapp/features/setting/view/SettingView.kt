@@ -5,33 +5,25 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -40,12 +32,27 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.weatherapp.R
 import com.example.weatherapp.core.AppColors
 import com.example.weatherapp.core.AppConst
-import com.example.weatherapp.core.CustomCatTitle
+import com.example.weatherapp.core.CustomSettingsDivider
+import com.example.weatherapp.core.NavViewRoute
+import com.example.weatherapp.features.setting.repo.UserPreferencesRepository
+import com.example.weatherapp.features.setting.viewmodel.SettingsViewModel
+import com.example.weatherapp.features.setting.viewmodel.SettingsViewModelFactory
 
-@Preview(showSystemUi = true, device = Devices.PIXEL_7_PRO)
 @Composable
-fun SettingView() {
+fun SettingView(
+    navController: NavHostController,
+    viewModel: SettingsViewModel = viewModel(
+        factory = SettingsViewModelFactory(
+            UserPreferencesRepository(LocalContext.current)
+        )
+    )
+) {
     val scrollState = rememberScrollState()
+
+    val locationPreference by viewModel.locationPreference.collectAsState(initial = "GPS")
+    val langPreference by viewModel.langPreference.collectAsState(initial = "Arabic")
+    val tempPreference by viewModel.tempPreference.collectAsState(initial = "Celsius${AppConst.TEMP_DEGREE}C")
+    val windPreference by viewModel.windPreference.collectAsState(initial = "Meter/Sec")
 
     val composition by rememberLottieComposition(LottieCompositionSpec.Asset("setting.json"))
     val progress by animateLottieCompositionAsState(
@@ -54,7 +61,7 @@ fun SettingView() {
     )
 
     val radioOptionsLang = listOf("English", "Arabic", "Default")
-    val radioOptionsLocation = listOf("GPS", "Location")
+    val radioOptionsLocation = listOf("GPS", "Map")
     val radioOptionsTemp = listOf(
         "Celsius${AppConst.TEMP_DEGREE}C",
         "Kelvin${AppConst.TEMP_DEGREE}K",
@@ -93,71 +100,51 @@ fun SettingView() {
             Column(
                 horizontalAlignment = Alignment.Start,
             ) {
-                CustomCategory("Language", R.drawable.lang_ic, radioOptionsLang)
-                CustomDivider()
-                CustomCategory("Location", R.drawable.location_ic, radioOptionsLocation)
-                CustomDivider()
-                CustomCategory("Temp Unit", R.drawable.temp_ic, radioOptionsTemp)
-                CustomDivider()
-                CustomCategory("Wind Speed Unit", R.drawable.wind_ic, radioOptionsWind)
-            }
-        }
+                CustomSettingsCategory(
+                    title = "Language",
+                    icon = R.drawable.lang_ic,
+                    radioOptions = radioOptionsLang,
+                    selectedOption = langPreference,
+                    onOptionSelected = { option ->
+                        viewModel.setLangPreference(option)
 
-    }
-}
-
-@Composable
-private fun CustomCategory(
-    title: String,
-    icon: Int,
-    radioOptions: List<String>
-) {
-    CustomCatTitle(title, icon)
-    CustomRadioButtonGroup(radioOptions)
-}
-
-@Composable
-private fun CustomDivider() {
-    Spacer(Modifier.height(8.dp))
-    HorizontalDivider(color = Color.LightGray)
-    Spacer(Modifier.height(15.dp))
-}
-
-@Composable
-fun CustomRadioButtonGroup(radioOptions: List<String>) {
-
-    var selectedOption by remember { mutableStateOf(radioOptions[0]) }
-
-    Row(
-        Modifier
-            .padding(10.dp)
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        radioOptions.forEach { option ->
-            Row(
-                modifier = Modifier
-                    .selectable(
-                        selected = (option == selectedOption),
-                        onClick = { selectedOption = option }
-                    ),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = (option == selectedOption),
-                    onClick = { selectedOption = option },
-                    colors = RadioButtonDefaults.colors(
-                        selectedColor = AppColors.IconCat,
-                        unselectedColor = Color.LightGray,
-                        disabledSelectedColor = Color.Gray.copy(alpha = 0.6f),
-                        disabledUnselectedColor = Color.Gray.copy(alpha = 0.38f)
-                    )
+                    }
                 )
-                Text(
-                    text = option,
-                    color = Color.White,
+                CustomSettingsDivider()
+                CustomSettingsCategory(
+                    title = "Location",
+                    icon = R.drawable.location_ic,
+                    radioOptions = radioOptionsLocation,
+                    selectedOption = locationPreference,
+                    onOptionSelected = { option ->
+                        viewModel.setLocationPreference(option)
+                        if (option == "Map") {
+                            navController.navigate(NavViewRoute.MAP)
+                        }
+                    }
+                )
+                CustomSettingsDivider()
+                CustomSettingsCategory(
+                    title = "Temp Unit",
+                    icon = R.drawable.temp_ic,
+                    radioOptions = radioOptionsTemp,
+                    selectedOption = tempPreference,
+                    onOptionSelected = { option ->
+                        viewModel.setTempPreference(option)
+                    }
+                )
+                CustomSettingsDivider()
+                CustomSettingsCategory(
+                    title = "Wind Speed Unit",
+                    icon = R.drawable.wind_ic,
+                    radioOptions = radioOptionsWind,
+                    selectedOption = windPreference,
+                    onOptionSelected = { option ->
+                        viewModel.setWindPreference(option)
+                    }
                 )
             }
         }
+
     }
 }
