@@ -1,4 +1,4 @@
-package com.example.weatherapp.features.home.view
+package com.example.weatherapp.features.home.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

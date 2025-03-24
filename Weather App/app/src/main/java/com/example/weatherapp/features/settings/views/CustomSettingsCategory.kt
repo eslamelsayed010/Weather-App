@@ -1,4 +1,4 @@
-package com.example.weatherapp.features.setting.view
+package com.example.weatherapp.features.settings.views
 
 import androidx.compose.runtime.Composable
 import com.example.weatherapp.core.CustomSettingsTitle

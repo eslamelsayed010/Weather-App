@@ -1,4 +1,4 @@
-package com.example.weatherapp.features.home.view
+package com.example.weatherapp.features.home.views
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

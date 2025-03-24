@@ -1,4 +1,4 @@
-package com.example.weatherapp.features.home.view
+package com.example.weatherapp.features.home.views
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

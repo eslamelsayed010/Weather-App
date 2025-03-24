@@ -1,4 +1,4 @@
-package com.example.weatherapp.features.main.view
+package com.example.weatherapp.features.main.views
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home

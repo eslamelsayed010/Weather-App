@@ -3,6 +3,8 @@ package com.example.weatherapp.core
 import androidx.compose.ui.graphics.Color
 
 object AppColors {
+    val PrimaryColor = Color(0xff94d693)
+
     //Gray
     val Gray50 = Color(0xFFFAFAFA)
     val Gray100 = Color(0xFFF5F5F5)
@@ -26,8 +28,7 @@ object AppColors {
     //Btn Nav Bar
     val SettingNav = Color(0xff0d0129)
 
-    //Cat
-    val IconCat = Color(0xff94d693)
+    //Settings
     val TitleCat = Color(0xff0091e3)
     val RadioBtn = Color(0xFF6200EE)
 }

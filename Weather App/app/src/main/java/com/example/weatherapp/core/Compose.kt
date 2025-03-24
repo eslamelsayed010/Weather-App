@@ -3,7 +3,7 @@ package com.example.weatherapp.core
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -129,18 +130,17 @@ fun CircularAvatar(@DrawableRes imageRes: Int) {
     Box(
         modifier = Modifier
             .size(50.dp)
+            .shadow(
+                elevation = 4.dp,
+                shape = CircleShape,
+                clip = true
+            )
             .clip(CircleShape)
-            .border(width = 2.dp, color = Color.White, shape = CircleShape),
+            .background(AppColors.PrimaryColor),
         contentAlignment = Alignment.Center
     ) {
-        Image(
-            painter = painterResource(id = imageRes),
-            contentDescription = "contentDescription",
-            modifier = Modifier.size(40.dp),
-            colorFilter = ColorFilter.tint(AppColors.IconCat)
-        )
+        CustomIcon(imageRes, Color.White)
     }
-
 }
 
 @Composable
@@ -151,19 +151,27 @@ fun CustomSettingsTitle(
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(id = imageRes),
-            contentDescription = "contentDescription",
-            modifier = Modifier.size(40.dp),
-            colorFilter = ColorFilter.tint(AppColors.IconCat)
-        )
+        CustomIcon(imageRes)
         Spacer(Modifier.width(5.dp))
         Text(
             title,
-            color = AppColors.IconCat,
+            color = AppColors.PrimaryColor,
             fontSize = 30.sp
         )
     }
+}
+
+@Composable
+fun CustomIcon(
+    imageRes: Int,
+    color: Color = AppColors.PrimaryColor
+) {
+    Image(
+        painter = painterResource(id = imageRes),
+        contentDescription = "contentDescription",
+        modifier = Modifier.size(40.dp),
+        colorFilter = ColorFilter.tint(color)
+    )
 }
 
 @Composable

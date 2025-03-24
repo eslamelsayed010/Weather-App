@@ -1,4 +1,4 @@
-package com.example.weatherapp.features.home.view
+package com.example.weatherapp.features.home.views
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement

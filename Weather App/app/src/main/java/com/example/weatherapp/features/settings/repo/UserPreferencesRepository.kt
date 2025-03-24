@@ -1,6 +1,7 @@
-package com.example.weatherapp.features.setting.repo
+package com.example.weatherapp.features.settings.repo
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.doublePreferencesKey
@@ -14,14 +15,13 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 @Suppress("PrivatePropertyName")
 class UserPreferencesRepository(context: Context) {
-    // Access the dataStore via the extension property
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+
     private val dataStore = context.dataStore
 
-    // Define preference keys
     private object PreferencesKeys {
         val LANGUAGE = stringPreferencesKey("language")
         val LOCATION = stringPreferencesKey("location")
@@ -31,19 +31,17 @@ class UserPreferencesRepository(context: Context) {
         val LONGITUDE = doublePreferencesKey("longitude")
     }
 
-    // Default values
-    private val DEFAULT_LANGUAGE = "Arabic"
+    private val DEFAULT_LANGUAGE = "English"
     private val DEFAULT_LOCATION = "GPS"
     private val DEFAULT_TEMPERATURE = "Celsius${AppConst.TEMP_DEGREE}C"
     private val DEFAULT_WIND_SPEED = "Meter/Sec"
 
-    // Get preferences as Flows
     val languagePreference: Flow<String> = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
             } else {
-                throw exception
+                Log.i("preference", "error: ${exception.message}")
             }
         }
         .map { preferences ->
@@ -55,20 +53,19 @@ class UserPreferencesRepository(context: Context) {
             if (exception is IOException) {
                 emit(emptyPreferences())
             } else {
-                throw exception
+                Log.i("preference", "error: ${exception.message}")
             }
         }
         .map { preferences ->
             preferences[PreferencesKeys.LOCATION] ?: DEFAULT_LOCATION
         }
 
-    // Similarly for temperature and wind
     val temperaturePreference: Flow<String> = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
             } else {
-                throw exception
+                Log.i("preference", "error: ${exception.message}")
             }
         }
         .map { preferences ->
@@ -80,14 +77,13 @@ class UserPreferencesRepository(context: Context) {
             if (exception is IOException) {
                 emit(emptyPreferences())
             } else {
-                throw exception
+                Log.i("preference", "error: ${exception.message}")
             }
         }
         .map { preferences ->
             preferences[PreferencesKeys.WIND_SPEED] ?: DEFAULT_WIND_SPEED
         }
 
-    // Functions to update preferences
     suspend fun updateLanguage(language: String) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.LANGUAGE] = language

@@ -4,20 +4,22 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.weatherapp.features.home.view.HomeView
+import com.example.weatherapp.features.home.views.HomeView
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
-import com.example.weatherapp.features.setting.view.MapView
-import com.example.weatherapp.features.setting.view.SettingView
+import com.example.weatherapp.features.settings.views.MapView
+import com.example.weatherapp.features.settings.views.SettingView
+import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
 
 @Composable
-fun NavigationGraph(navController: NavHostController, viewModel: HomeViewModel) {
+fun NavigationGraph(
+    navController: NavHostController,
+    viewModel: HomeViewModel,
+    settingsViewModel: SettingsViewModel
+) {
     NavHost(navController, startDestination = "home") {
-        //nav bar
         composable(NavViewRoute.HOME) { HomeView(viewModel) }
+        composable(NavViewRoute.SETTINGS) { SettingView(navController, settingsViewModel) }
 
-        composable(NavViewRoute.SETTINGS) { SettingView(navController) }
-
-        //sitting views
-        composable(NavViewRoute.MAP) { MapView(navController, viewModel) }
+        composable(NavViewRoute.MAP) { MapView(navController, viewModel, settingsViewModel) }
     }
 }

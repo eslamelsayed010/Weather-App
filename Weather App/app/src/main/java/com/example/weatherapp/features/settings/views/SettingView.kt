@@ -1,4 +1,4 @@
-package com.example.weatherapp.features.setting.view
+package com.example.weatherapp.features.settings.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -20,9 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -34,18 +32,12 @@ import com.example.weatherapp.core.AppColors
 import com.example.weatherapp.core.AppConst
 import com.example.weatherapp.core.CustomSettingsDivider
 import com.example.weatherapp.core.NavViewRoute
-import com.example.weatherapp.features.setting.repo.UserPreferencesRepository
-import com.example.weatherapp.features.setting.viewmodel.SettingsViewModel
-import com.example.weatherapp.features.setting.viewmodel.SettingsViewModelFactory
+import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
 
 @Composable
 fun SettingView(
     navController: NavHostController,
-    viewModel: SettingsViewModel = viewModel(
-        factory = SettingsViewModelFactory(
-            UserPreferencesRepository(LocalContext.current)
-        )
-    )
+    viewModel: SettingsViewModel
 ) {
     val scrollState = rememberScrollState()
 

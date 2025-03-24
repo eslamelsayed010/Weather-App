@@ -1,4 +1,4 @@
-package com.example.weatherapp.features.setting.view
+package com.example.weatherapp.features.settings.views
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -40,7 +40,7 @@ fun CustomRadioButtonGroup(
                     selected = (option == selectedOption),
                     onClick = { onOptionSelected(option) },
                     colors = RadioButtonDefaults.colors(
-                        selectedColor = AppColors.IconCat,
+                        selectedColor = AppColors.PrimaryColor,
                         unselectedColor = Color.LightGray,
                         disabledSelectedColor = Color.Gray.copy(alpha = 0.6f),
                         disabledUnselectedColor = Color.Gray.copy(alpha = 0.38f)
