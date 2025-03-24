@@ -3,6 +3,7 @@ package com.example.weatherapp.core
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -15,12 +16,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -123,11 +127,11 @@ fun LottieBackgroundBox(
 @Composable
 fun CircularAvatar(@DrawableRes imageRes: Int) {
     Box(
-//        modifier = Modifier
-//            .size(50.dp)
-//            .clip(CircleShape)
-//            .border(width = 2.dp, color = Color.White, shape = CircleShape),
-//        contentAlignment = Alignment.Center
+        modifier = Modifier
+            .size(50.dp)
+            .clip(CircleShape)
+            .border(width = 2.dp, color = Color.White, shape = CircleShape),
+        contentAlignment = Alignment.Center
     ) {
         Image(
             painter = painterResource(id = imageRes),
@@ -136,17 +140,23 @@ fun CircularAvatar(@DrawableRes imageRes: Int) {
             colorFilter = ColorFilter.tint(AppColors.IconCat)
         )
     }
+
 }
 
 @Composable
-fun CustomCatTitle(
+fun CustomSettingsTitle(
     title: String,
-    icon: Int
+    @DrawableRes imageRes: Int
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        CircularAvatar(icon)
+        Image(
+            painter = painterResource(id = imageRes),
+            contentDescription = "contentDescription",
+            modifier = Modifier.size(40.dp),
+            colorFilter = ColorFilter.tint(AppColors.IconCat)
+        )
         Spacer(Modifier.width(5.dp))
         Text(
             title,
@@ -154,4 +164,23 @@ fun CustomCatTitle(
             fontSize = 30.sp
         )
     }
+}
+
+@Composable
+fun CustomForecastDivider(txt: String) {
+    Text(
+        txt,
+        fontSize = 25.sp,
+        color = AppColors.Gray300
+    )
+    Spacer(Modifier.height(10.dp))
+    DashedDivider()
+    Spacer(Modifier.height(15.dp))
+}
+
+@Composable
+fun CustomSettingsDivider() {
+    Spacer(Modifier.height(8.dp))
+    HorizontalDivider(color = Color.LightGray)
+    Spacer(Modifier.height(15.dp))
 }
