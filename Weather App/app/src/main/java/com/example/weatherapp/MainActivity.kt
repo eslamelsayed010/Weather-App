@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
                 Pair(latState, lonState)
             }
 
-            locationPref == "GPS" && location.latitude != 0.0 && location.longitude != 0.0 -> {
+            location.latitude != 0.0 && location.longitude != 0.0 -> {
                 Pair(location.latitude, location.longitude)
             }
 
