@@ -54,7 +54,7 @@ fun HomeView(viewModel: HomeViewModel) {
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.Top
                 ) {
-                    CustomCountryDataTitle(weatherModel)
+                    CustomCountryDataTitle(weatherModel, viewModel)
                     Spacer(Modifier.height(50.dp))
                     CustomCountryIconDegree(weatherModel)
                     Spacer(Modifier.height(10.dp))

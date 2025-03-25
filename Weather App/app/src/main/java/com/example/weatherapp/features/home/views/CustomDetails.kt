@@ -26,7 +26,7 @@ import com.example.weatherapp.core.models.WeatherModel
 
 @Composable
 fun CustomMoreDevitalises(weatherModel: WeatherModel) {
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp + 60.dp
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp + 100.dp
     Box(
         modifier = Modifier
             .shadow(10.dp, RoundedCornerShape(15.dp))

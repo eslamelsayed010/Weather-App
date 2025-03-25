@@ -49,7 +49,7 @@ class HomeViewModel(
         getCurrentWeather()
     }
 
-    fun getWeatherForecast() {
+    private fun getWeatherForecast() {
         viewModelScope.launch {
             try {
                 val forecastData = withContext(Dispatchers.IO) {
@@ -68,7 +68,7 @@ class HomeViewModel(
         }
     }
 
-     fun getCurrentWeather() {
+    private fun getCurrentWeather() {
         viewModelScope.launch {
             try {
                 val forecasts = repo.getCurrentWeather(lat, lon)
@@ -204,6 +204,15 @@ class HomeViewModel(
             URL("https://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lon&appid=${AppConst.API_KEY}&units=metric")
         val response = url.readText()
         return JSONObject(response)
+    }
+
+    fun getCurrentFormattedDate(): String {
+        return try {
+            val dateFormat = SimpleDateFormat("EEEE, d MMMM yyyy | h:mm:ss a", Locale.getDefault())
+            dateFormat.format(Date())
+        } catch (e: Exception) {
+            "Date Unavailable"
+        }
     }
 }
 
