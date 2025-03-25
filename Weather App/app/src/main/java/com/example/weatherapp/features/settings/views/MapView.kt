@@ -10,8 +10,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.weatherapp.R
@@ -35,6 +37,9 @@ fun MapView(
     settingsViewModel: SettingsViewModel
 ) {
     val dataState by viewModel.weatherModelResponse.collectAsState()
+    var cityName by remember { mutableStateOf("") }
+    var countryName by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     val selectedPosition = remember {
         mutableStateOf(
@@ -74,6 +79,14 @@ fun MapView(
             uiSettings = mapUiSettings,
             onMapClick = { latLng ->
                 selectedPosition.value = latLng
+                settingsViewModel.getCityAndCountry(
+                    context,
+                    selectedPosition.value.latitude,
+                    selectedPosition.value.longitude
+                ) { city, country ->
+                    cityName = "for $city"
+                    countryName = country
+                }
             }
         ) {
             Marker(
@@ -86,8 +99,10 @@ fun MapView(
             viewModel,
             settingsViewModel,
             selectedPosition,
-            navController
-            )
+            navController,
+            cityName,
+            countryName
+        )
         Box(
             Modifier
                 .padding(15.dp)

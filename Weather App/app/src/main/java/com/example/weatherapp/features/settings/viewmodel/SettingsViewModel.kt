@@ -1,10 +1,17 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.weatherapp.features.settings.viewmodel
 
+import android.content.Context
+import android.location.Geocoder
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.features.settings.repo.UserPreferencesRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.Locale
 
 class SettingsViewModel(
     private val userPreferencesRepository: UserPreferencesRepository
@@ -46,6 +53,38 @@ class SettingsViewModel(
             userPreferencesRepository.updateLocation("Map")
             userPreferencesRepository.saveLatitude(latitude)
             userPreferencesRepository.saveLongitude(longitude)
+        }
+    }
+
+    fun getCityAndCountry(
+        context: Context,
+        latitude: Double,
+        longitude: Double,
+        onResult: (String, String) -> Unit
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val geocoder = Geocoder(context, Locale.getDefault())
+                val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+
+                if (!addresses.isNullOrEmpty()) {
+                    val address = addresses[0]
+                    val city = address.locality ?: address.subAdminArea ?: "Unknown"
+                    val country = address.countryName ?: "Unknown"
+
+                    withContext(Dispatchers.Main) {
+                        onResult(city, country)
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        onResult("Not Found", "Not Found")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    onResult("Error", "Error")
+                }
+            }
         }
     }
 }

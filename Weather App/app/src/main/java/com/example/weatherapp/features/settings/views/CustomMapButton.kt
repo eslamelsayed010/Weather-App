@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.weatherapp.core.AppColors
@@ -30,11 +31,12 @@ fun CustomMapButton(
     homeViewModel: HomeViewModel,
     settingsViewModel: SettingsViewModel,
     selectedPosition: MutableState<LatLng>,
-    navController: NavHostController
+    navController: NavHostController,
+    city: String,
+    country: String
 ) {
     Button(
         onClick = {
-
             settingsViewModel.setCustomLocation(
                 selectedPosition.value.latitude,
                 selectedPosition.value.longitude
@@ -42,8 +44,7 @@ fun CustomMapButton(
 
             homeViewModel.lat = selectedPosition.value.latitude
             homeViewModel.lon = selectedPosition.value.longitude
-            homeViewModel.getWeatherForecast()
-            homeViewModel.getCurrentWeather()
+            homeViewModel.refreshWeatherData()
             navController.popBackStack()
         },
         colors = ButtonDefaults.buttonColors(
@@ -58,7 +59,7 @@ fun CustomMapButton(
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .height(60.dp)
+            .height(70.dp)
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Icon(
@@ -68,9 +69,11 @@ fun CustomMapButton(
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = "Get Weather for This Location",
+            text = "Get Weather $city $country".take(30),
             style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1
         )
     }
 }
