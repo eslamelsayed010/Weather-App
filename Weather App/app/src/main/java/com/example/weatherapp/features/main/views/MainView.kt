@@ -11,10 +11,15 @@ import androidx.navigation.compose.rememberNavController
 import com.example.weatherapp.core.NavViewRoute
 import com.example.weatherapp.core.NavigationGraph
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
+import com.example.weatherapp.features.main.viewmodel.LocationViewModel
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
 
 @Composable
-fun MainView(viewModel: HomeViewModel, settingsViewModel: SettingsViewModel) {
+fun MainView(
+    viewModel: HomeViewModel,
+    settingsViewModel: SettingsViewModel,
+    locationViewModel: LocationViewModel
+) {
     val navController = rememberNavController()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -30,7 +35,12 @@ fun MainView(viewModel: HomeViewModel, settingsViewModel: SettingsViewModel) {
         }
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {
-            NavigationGraph(navController, viewModel, settingsViewModel)
+            NavigationGraph(
+                navController,
+                viewModel,
+                settingsViewModel,
+                locationViewModel
+            )
         }
     }
 }

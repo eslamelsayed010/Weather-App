@@ -82,7 +82,12 @@ fun MapView(
                 snippet = "Lat: ${selectedPosition.value.latitude}, Lng: ${selectedPosition.value.longitude}"
             )
         }
-        CustomMapButton(settingsViewModel, selectedPosition, navController)
+        CustomMapButton(
+            viewModel,
+            settingsViewModel,
+            selectedPosition,
+            navController
+            )
         Box(
             Modifier
                 .padding(15.dp)

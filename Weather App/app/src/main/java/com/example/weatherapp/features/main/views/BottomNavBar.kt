@@ -24,7 +24,6 @@ import com.example.weatherapp.features.main.model.BottomNavItem
 fun BottomNavBar(navController: NavHostController, viewModel: HomeViewModel) {
     val dataState by viewModel.weatherModelResponse.collectAsState()
 
-    // Get current route from navigation controller
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
@@ -40,7 +39,6 @@ fun BottomNavBar(navController: NavHostController, viewModel: HomeViewModel) {
         BottomNavItem("Settings", Icons.Default.Settings, "settings")
     )
 
-    // Determine selected index based on current route
     val selectedItem = items.indexOfFirst { it.route == currentRoute }.takeIf { it >= 0 } ?: 0
 
     val colors = listOf(
@@ -65,14 +63,10 @@ fun BottomNavBar(navController: NavHostController, viewModel: HomeViewModel) {
                 selected = currentRoute == item.route,
                 onClick = {
                     navController.navigate(item.route) {
-                        // Add navigation options to handle back stack behavior
-                        // This prevents building up a large back stack
                         popUpTo(navController.graph.startDestinationId) {
                             saveState = true
                         }
-                        // Avoid multiple copies of the same destination
                         launchSingleTop = true
-                        // Restore state when re selecting a previously selected item
                         restoreState = true
                     }
                 }

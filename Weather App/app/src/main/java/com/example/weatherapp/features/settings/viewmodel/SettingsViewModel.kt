@@ -14,6 +14,8 @@ class SettingsViewModel(
     val locationPreference = userPreferencesRepository.locationPreference
     val tempPreference = userPreferencesRepository.temperaturePreference
     val windPreference = userPreferencesRepository.windSpeedPreference
+    val mapLat = userPreferencesRepository.latitude
+    val mapLon = userPreferencesRepository.longitude
 
     fun setLangPreference(preference: String) {
         viewModelScope.launch {

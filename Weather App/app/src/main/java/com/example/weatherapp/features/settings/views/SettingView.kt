@@ -32,12 +32,16 @@ import com.example.weatherapp.core.AppColors
 import com.example.weatherapp.core.AppConst
 import com.example.weatherapp.core.CustomSettingsDivider
 import com.example.weatherapp.core.NavViewRoute
+import com.example.weatherapp.features.home.viewmodel.HomeViewModel
+import com.example.weatherapp.features.main.viewmodel.LocationViewModel
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
 
 @Composable
 fun SettingView(
     navController: NavHostController,
-    viewModel: SettingsViewModel
+    viewModel: SettingsViewModel,
+    homeViewModel: HomeViewModel,
+    locationViewModel: LocationViewModel
 ) {
     val scrollState = rememberScrollState()
 
@@ -99,7 +103,7 @@ fun SettingView(
                     selectedOption = langPreference,
                     onOptionSelected = { option ->
                         viewModel.setLangPreference(option)
-
+                        homeViewModel.refreshWeatherData()
                     }
                 )
                 CustomSettingsDivider()
@@ -109,9 +113,19 @@ fun SettingView(
                     radioOptions = radioOptionsLocation,
                     selectedOption = locationPreference,
                     onOptionSelected = { option ->
-                        viewModel.setLocationPreference(option)
-                        if (option == "Map") {
-                            navController.navigate(NavViewRoute.MAP)
+                        when (option) {
+                            "Map" -> {
+                                viewModel.setLocationPreference("Map")
+                                navController.navigate(NavViewRoute.MAP)
+                            }
+                            "GPS" -> {
+                                viewModel.setLocationPreference("GPS")
+                                val location =
+                                    locationViewModel.locationState.value ?: locationViewModel.getDefaultLocation()
+                                homeViewModel.lon = location.longitude
+                                homeViewModel.lat = location.latitude
+                                homeViewModel.refreshWeatherData()
+                            }
                         }
                     }
                 )

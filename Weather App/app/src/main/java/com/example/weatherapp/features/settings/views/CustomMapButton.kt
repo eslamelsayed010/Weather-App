@@ -1,6 +1,5 @@
 package com.example.weatherapp.features.settings.views
 
-import android.util.Log
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,25 +21,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.weatherapp.core.AppColors
+import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
 import com.google.android.gms.maps.model.LatLng
 
 @Composable
 fun CustomMapButton(
+    homeViewModel: HomeViewModel,
     settingsViewModel: SettingsViewModel,
     selectedPosition: MutableState<LatLng>,
     navController: NavHostController
 ) {
     Button(
         onClick = {
+
             settingsViewModel.setCustomLocation(
                 selectedPosition.value.latitude,
                 selectedPosition.value.longitude
             )
-            Log.i(
-                "MapView",
-                "MapView: ${selectedPosition.value.latitude} ${selectedPosition.value.longitude}"
-            )
+
+            homeViewModel.lat = selectedPosition.value.latitude
+            homeViewModel.lon = selectedPosition.value.longitude
+            homeViewModel.getWeatherForecast()
+            homeViewModel.getCurrentWeather()
             navController.popBackStack()
         },
         colors = ButtonDefaults.buttonColors(

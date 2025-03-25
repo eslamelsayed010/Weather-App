@@ -27,8 +27,8 @@ import java.util.Locale
 
 class HomeViewModel(
     private val repo: WeatherRepo,
-    private val lat: Double,
-    private val lon: Double
+    var lat: Double,
+    var lon: Double
 ) : ViewModel() {
     private var mutList = MutableStateFlow<Response>(Response.Loading)
     val weatherModelResponse = mutList.asStateFlow()
@@ -44,7 +44,12 @@ class HomeViewModel(
         getWeatherForecast()
     }
 
-    private fun getWeatherForecast() {
+    fun refreshWeatherData() {
+        getWeatherForecast()
+        getCurrentWeather()
+    }
+
+    fun getWeatherForecast() {
         viewModelScope.launch {
             try {
                 val forecastData = withContext(Dispatchers.IO) {
@@ -63,7 +68,7 @@ class HomeViewModel(
         }
     }
 
-    private fun getCurrentWeather() {
+     fun getCurrentWeather() {
         viewModelScope.launch {
             try {
                 val forecasts = repo.getCurrentWeather(lat, lon)
@@ -203,7 +208,7 @@ class HomeViewModel(
 }
 
 @Suppress("UNCHECKED_CAST")
-class MyFactory(
+class HomeFactory(
     private val repo: WeatherRepo,
     private val lat: Double,
     private val log: Double
