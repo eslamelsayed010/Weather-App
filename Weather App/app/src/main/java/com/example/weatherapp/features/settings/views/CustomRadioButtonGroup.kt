@@ -12,7 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.weatherapp.R
 import com.example.weatherapp.core.AppColors
 
 @Composable
@@ -28,6 +30,20 @@ fun CustomRadioButtonGroup(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         radioOptions.forEach { option ->
+            val localizedOption = when (option) {
+                "English" -> stringResource(R.string.language_english)
+                "Arabic" -> stringResource(R.string.language_arabic)
+                "Default" -> stringResource(R.string.language_default)
+                "GPS" -> stringResource(R.string.location_gps)
+                "Map" -> stringResource(R.string.location_map)
+                "Celsius°C" -> stringResource(R.string.temp_celsius)
+                "Kelvin°K" -> stringResource(R.string.temp_kelvin)
+                "Fahrenheit°F" -> stringResource(R.string.temp_fahrenheit)
+                "Meter/Sec" -> stringResource(R.string.wind_meter_sec)
+                "Mile/Hour" -> stringResource(R.string.wind_mile_hour)
+                else -> option
+            }
+
             Row(
                 modifier = Modifier
                     .selectable(
@@ -47,7 +63,7 @@ fun CustomRadioButtonGroup(
                     )
                 )
                 Text(
-                    text = option,
+                    text = localizedOption,
                     color = Color.White,
                 )
             }

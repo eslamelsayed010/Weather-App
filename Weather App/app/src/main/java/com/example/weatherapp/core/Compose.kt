@@ -1,5 +1,6 @@
 package com.example.weatherapp.core
 
+import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -30,6 +31,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,6 +40,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.weatherapp.R
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 
 @Composable
@@ -63,6 +66,7 @@ fun CustomAnmiLoading() {
 
 @Composable
 fun CustomError(viewModel: HomeViewModel) {
+    val context = LocalContext.current
     Column(
         Modifier
             .fillMaxSize()
@@ -71,7 +75,11 @@ fun CustomError(viewModel: HomeViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            "There is an error ${viewModel.toastEvent.collectAsState(String()).value}",
+            "${context.getString(R.string.There_is_an_error)} ${
+                viewModel.toastEvent.collectAsState(
+                    String()
+                ).value
+            }",
             color = Color.Red,
             fontSize = 30.sp
         )
@@ -151,12 +159,12 @@ fun CustomSettingsTitle(
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        CustomIcon(imageRes)
+        CustomIcon(imageRes, modifier = Modifier.size(30.dp))
         Spacer(Modifier.width(5.dp))
         Text(
             title,
             color = AppColors.PrimaryColor,
-            fontSize = 30.sp
+            fontSize = 25.sp
         )
     }
 }
@@ -164,12 +172,13 @@ fun CustomSettingsTitle(
 @Composable
 fun CustomIcon(
     imageRes: Int,
-    color: Color = AppColors.PrimaryColor
+    color: Color = AppColors.PrimaryColor,
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier.size(40.dp)
 ) {
     Image(
         painter = painterResource(id = imageRes),
         contentDescription = "contentDescription",
-        modifier = Modifier.size(40.dp),
+        modifier = modifier,
         colorFilter = ColorFilter.tint(color)
     )
 }
@@ -179,7 +188,7 @@ fun CustomForecastDivider(txt: String) {
     Text(
         txt,
         fontSize = 25.sp,
-        color = AppColors.Gray300
+        color = Color.LightGray
     )
     Spacer(Modifier.height(10.dp))
     DashedDivider()

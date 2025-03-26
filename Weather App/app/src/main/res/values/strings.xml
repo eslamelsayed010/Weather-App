@@ -1,3 +1,45 @@
 <resources>
     <string name="app_name">Weather App</string>
+
+    <!--home-->
+    <string name="Next_five_Days">Next Five Days</string>
+    <string name="H">H: </string>
+    <string name="L">L: </string>
+    <string name="There_is_an_error">There is an error</string>
+    <string name="Wind_Speed">Wind Speed</string>
+    <string name="M_S">m/s</string>
+    <string name="Pressure">Pressure</string>
+    <string name="hPa">hPa</string>
+    <string name="Humidity">Humidity</string>
+    <string name="Clouds">Clouds</string>
+    <string name="Hourly_forecast">Hourly forecast</string>
+
+    <!--nav bar-->
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="alert">Alert</string>
+    <string name="settings">Settings</string>
+
+    <!--settings view-->
+    <string name="language">Language</string>
+    <string name="Location">Location</string>
+    <string name="temp_unit">Temp Unit</string>
+    <string name="wind_speed_unit">Wind Speed Unit</string>
+    <string name="get_weather">Get Weather</string>
+    <string name="fore">for</string>
+
+    <!--radio options-->
+    <string name="language_english">English</string>
+    <string name="language_arabic">Arabic</string>
+    <string name="language_default">Default</string>
+
+    <string name="location_gps">GPS</string>
+    <string name="location_map">Map</string>
+
+    <string name="temp_celsius">Celsius°C</string>
+    <string name="temp_kelvin">Kelvin°K</string>
+    <string name="temp_fahrenheit">Fahrenheit°F</string>
+
+    <string name="wind_meter_sec">Meter/Sec</string>
+    <string name="wind_mile_hour">Mile/Hour</string>
 </resources>

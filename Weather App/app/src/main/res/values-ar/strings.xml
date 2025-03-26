@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">تطبيق الطقس</string>
+
+    <!--home-->
+    <string name="Next_five_Days">الأيام الخمسة القادمة</string>
+    <string name="H">اعلي: </string>
+    <string name="L">ادني: </string>
+    <string name="There_is_an_error">هناك خطأ</string>
+    <string name="Wind_Speed">سرعة الرياح</string>
+    <string name="M_S">م/ث</string>
+    <string name="Pressure">الضغط</string>
+    <string name="hPa">هـ.ب</string>
+    <string name="Humidity">الرطوبة</string>
+    <string name="Clouds">السحب</string>
+    <string name="Hourly_forecast">توقعات كل ساعة</string>
+
+    <!--nav bar-->
+    <string name="home">الرئيسية</string>
+    <string name="favorite">المفضلة</string>
+    <string name="alert">التنبيهات</string>
+    <string name="settings">الإعدادات</string>
+
+    <!--settings view-->
+    <string name="language">اللغة</string>
+    <string name="Location">الموقع</string>
+    <string name="temp_unit">وحدة درجة الحرارة</string>
+    <string name="wind_speed_unit">وحدة سرعة الرياح</string>
+    <string name="get_weather">احصل على الطقس</string>
+    <string name="fore">لـ</string>
+
+    <!--radio options-->
+    <string name="language_english">الإنجليزية</string>
+    <string name="language_arabic">العربية</string>
+    <string name="language_default">افتراضي</string>
+
+    <string name="location_gps">نظام تحديد المواقع</string>
+    <string name="location_map">خريطة</string>
+
+    <string name="temp_celsius">مئوية°س</string>
+    <string name="temp_kelvin">كلفن°ك</string>
+    <string name="temp_fahrenheit">فهرنهايت°ف</string>
+
+    <string name="wind_meter_sec">متر/ثانية</string>
+    <string name="wind_mile_hour">ميل/ساعة</string>
+</resources>

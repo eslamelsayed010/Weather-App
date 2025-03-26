@@ -84,7 +84,7 @@ fun MapView(
                     selectedPosition.value.latitude,
                     selectedPosition.value.longitude
                 ) { city, country ->
-                    cityName = "for $city"
+                    cityName = city
                     countryName = country
                 }
             }

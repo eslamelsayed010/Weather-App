@@ -19,8 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.weatherapp.R
 import com.example.weatherapp.core.AppColors
 import com.example.weatherapp.core.AppConst
 import com.example.weatherapp.core.CustomForecastDivider
@@ -29,8 +31,8 @@ import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun Custom5NextDay(fiveDayForecast: List<DailyForecast>) {
-    CustomForecastDivider("Next 5 Days")
-
+    val context = LocalContext.current
+    CustomForecastDivider(context.getString(R.string.Next_five_Days))
     for (element in fiveDayForecast) {
         Custom5NextDayItem(element)
         Spacer(Modifier.height(20.dp))
@@ -40,6 +42,7 @@ fun Custom5NextDay(fiveDayForecast: List<DailyForecast>) {
 @SuppressLint("DefaultLocale")
 @Composable
 fun Custom5NextDayItem(dailyForecast: DailyForecast) {
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .shadow(10.dp, RoundedCornerShape(15.dp))
@@ -60,7 +63,7 @@ fun Custom5NextDayItem(dailyForecast: DailyForecast) {
                 Text(
                     dailyForecast.date,
                     fontSize = 30.sp,
-                    color = AppColors.Gray300
+                    color = Color.White
                 )
                 GlideImage(
                     imageModel = { AppConst.IMAGE_URL + dailyForecast.weatherIcon + AppConst.IMAGE_EXE },
@@ -71,9 +74,20 @@ fun Custom5NextDayItem(dailyForecast: DailyForecast) {
             }
             Column {
                 Text(
-                    "H: ${dailyForecast.maxTemperature}${AppConst.TEMP_DEGREE} L: ${dailyForecast.minTemperature}${AppConst.TEMP_DEGREE}",
+                    context.getString(R.string.H) +
+                            String.format(
+                                "%.2f%s",
+                                dailyForecast.maxTemperature,
+                                AppConst.TEMP_DEGREE
+                            ) +
+                            context.getString(R.string.L) +
+                            String.format(
+                                "%.2f%s",
+                                dailyForecast.minTemperature,
+                                AppConst.TEMP_DEGREE
+                            ),
                     fontSize = 20.sp,
-                    color = Color.Gray
+                    color = Color.LightGray
                 )
                 Row(
                     Modifier.fillMaxWidth(),

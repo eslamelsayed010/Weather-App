@@ -165,7 +165,6 @@ class HomeViewModel(
                     val weatherId = weather.getString("id")
                     weatherFrequency[weatherId] = (weatherFrequency[weatherId] ?: 0) + 1
 
-                    // Save the description and icon for most frequent weather
                     if (weatherFrequency[weatherId] == (weatherFrequency.values.maxOrNull() ?: 0)) {
                         mainWeatherDescription = weather.getString("description")
                         mainWeatherIcon = weather.getString("icon")

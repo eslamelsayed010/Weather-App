@@ -20,6 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieAnimation
@@ -44,6 +46,7 @@ fun SettingView(
     locationViewModel: LocationViewModel
 ) {
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
 
     val locationPreference by viewModel.locationPreference.collectAsState(initial = "GPS")
     val langPreference by viewModel.langPreference.collectAsState(initial = "Arabic")
@@ -71,7 +74,7 @@ fun SettingView(
     Column(
         Modifier
             .fillMaxSize()
-            .background(AppColors.SettingNav)
+            .background(AppColors.BackgroundColor)
             .padding(10.dp)
             .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -97,7 +100,7 @@ fun SettingView(
                 horizontalAlignment = Alignment.Start,
             ) {
                 CustomSettingsCategory(
-                    title = "Language",
+                    title = context.getString(R.string.language),
                     icon = R.drawable.lang_ic,
                     radioOptions = radioOptionsLang,
                     selectedOption = langPreference,
@@ -108,7 +111,7 @@ fun SettingView(
                 )
                 CustomSettingsDivider()
                 CustomSettingsCategory(
-                    title = "Location",
+                    title = stringResource(R.string.Location),
                     icon = R.drawable.location_ic,
                     radioOptions = radioOptionsLocation,
                     selectedOption = locationPreference,
@@ -131,7 +134,7 @@ fun SettingView(
                 )
                 CustomSettingsDivider()
                 CustomSettingsCategory(
-                    title = "Temp Unit",
+                    title = stringResource(R.string.temp_unit),
                     icon = R.drawable.temp_ic,
                     radioOptions = radioOptionsTemp,
                     selectedOption = tempPreference,
@@ -141,7 +144,7 @@ fun SettingView(
                 )
                 CustomSettingsDivider()
                 CustomSettingsCategory(
-                    title = "Wind Speed Unit",
+                    title = stringResource(R.string.wind_speed_unit),
                     icon = R.drawable.wind_ic,
                     radioOptions = radioOptionsWind,
                     selectedOption = windPreference,

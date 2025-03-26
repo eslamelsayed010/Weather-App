@@ -1,5 +1,6 @@
 package com.example.weatherapp.features.home.views
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -15,18 +16,22 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.weatherapp.core.AppColors
+import com.example.weatherapp.R
 import com.example.weatherapp.core.models.WeatherModel
 
 @Composable
 fun CustomMoreDevitalises(weatherModel: WeatherModel) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp + 100.dp
+    val context = LocalContext.current
+
     Box(
         modifier = Modifier
             .shadow(10.dp, RoundedCornerShape(15.dp))
@@ -46,14 +51,14 @@ fun CustomMoreDevitalises(weatherModel: WeatherModel) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 CustomDetailItem(
-                    type = "Wind Speed",
-                    unit = "M/S",
+                    type = context.getString(R.string.Wind_Speed),
+                    unit = context.getString(R.string.M_S),
                     measure = weatherModel.wind.speed
                 )
                 CustomDetailItem(
-                    type = "Pressure",
-                    unit = "HPA",
-                    measure = weatherModel.main.pressure.toDouble()
+                    type = context.getString(R.string.Clouds),
+                    unit = "%",
+                    measure = weatherModel.clouds.all.toDouble()
                 )
             }
 
@@ -62,14 +67,14 @@ fun CustomMoreDevitalises(weatherModel: WeatherModel) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 CustomDetailItem(
-                    type = "Humidity",
-                    unit = "%",
-                    measure = weatherModel.main.humidity.toDouble()
+                    type = context.getString(R.string.Pressure),
+                    unit = context.getString(R.string.hPa),
+                    measure = weatherModel.main.pressure.toDouble()
                 )
                 CustomDetailItem(
-                    type = "Clouds",
+                    type = context.getString(R.string.Humidity),
                     unit = "%",
-                    measure = weatherModel.clouds.all.toDouble()
+                    measure = weatherModel.main.humidity.toDouble()
                 )
             }
         }
@@ -77,22 +82,25 @@ fun CustomMoreDevitalises(weatherModel: WeatherModel) {
 
 }
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun CustomDetailItem(
     type: String,
     unit: String,
     measure: Double
 ) {
-    Column {
+    Column(
+        horizontalAlignment = Alignment.Start
+    ) {
         Text(
             type,
-            color = AppColors.Gray300,
+            color = Color.LightGray,
             fontSize = 15.sp
         )
         Spacer(Modifier.height(3.dp))
         Row {
             Text(
-                "$measure",
+                String.format("%.1f", measure),
                 color = Color.White,
                 fontSize = 20.sp,
                 modifier = Modifier.alignByBaseline()
@@ -100,7 +108,7 @@ fun CustomDetailItem(
             Spacer(Modifier.width(5.dp))
             Text(
                 unit,
-                color = AppColors.Gray300,
+                color = Color.White,
                 fontSize = 13.sp,
                 modifier = Modifier.alignByBaseline()
             )

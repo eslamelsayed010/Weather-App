@@ -17,10 +17,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.weatherapp.R
 import com.example.weatherapp.core.AppColors
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
@@ -69,7 +71,7 @@ fun CustomMapButton(
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = "Get Weather $city $country".take(30),
+            text = "${stringResource(R.string.get_weather)} $city $country".take(35),
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold,
             overflow = TextOverflow.Ellipsis,

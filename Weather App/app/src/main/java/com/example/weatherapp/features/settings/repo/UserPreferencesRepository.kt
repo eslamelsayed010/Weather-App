@@ -31,7 +31,7 @@ class UserPreferencesRepository(context: Context) {
         val LONGITUDE = doublePreferencesKey("longitude")
     }
 
-    private val DEFAULT_LANGUAGE = "English"
+    private val DEFAULT_LANGUAGE = "Default"
     private val DEFAULT_LOCATION = "GPS"
     private val DEFAULT_TEMPERATURE = "Celsius${AppConst.TEMP_DEGREE}C"
     private val DEFAULT_WIND_SPEED = "Meter/Sec"

@@ -38,7 +38,7 @@ fun CustomCountryDataTitle(
     }
 
     val txtColor = when (weatherModel?.weather?.firstOrNull()?.description?.lowercase()) {
-        "snow" -> Color.Black
+        "snow", "light snow", "rain and snow", "Blizzard" -> Color.Black
         "few clouds" -> Color.LightGray
         else -> Color.White
     }

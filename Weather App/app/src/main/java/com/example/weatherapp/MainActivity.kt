@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.statusBarColor = AppColors.SettingNav.toArgb()
+        window.statusBarColor = AppColors.BackgroundColor.toArgb()
 
         locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
 
