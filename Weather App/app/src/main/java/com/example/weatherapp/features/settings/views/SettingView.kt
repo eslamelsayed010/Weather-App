@@ -33,6 +33,7 @@ import com.example.weatherapp.R
 import com.example.weatherapp.core.AppColors
 import com.example.weatherapp.core.AppConst
 import com.example.weatherapp.core.CustomSettingsDivider
+import com.example.weatherapp.core.LanguageChangeHelper
 import com.example.weatherapp.core.NavViewRoute
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.main.viewmodel.LocationViewModel
@@ -47,6 +48,10 @@ fun SettingView(
 ) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
+
+    val languageChangeHelper by lazy {
+        LanguageChangeHelper()
+    }
 
     val locationPreference by viewModel.locationPreference.collectAsState(initial = "GPS")
     val langPreference by viewModel.langPreference.collectAsState(initial = "Arabic")
@@ -106,6 +111,16 @@ fun SettingView(
                     selectedOption = langPreference,
                     onOptionSelected = { option ->
                         viewModel.setLangPreference(option)
+                        val languageCode = when (option) {
+                            "English" -> "en"
+                            "Arabic" -> "ar"
+                            "Default" -> "Default"
+                            else -> "en"
+                        }
+
+                        languageChangeHelper.saveLanguagePreference(context, languageCode)
+                        languageChangeHelper.changeLanguage(context, languageCode)
+
                         homeViewModel.refreshWeatherData()
                     }
                 )
@@ -121,10 +136,12 @@ fun SettingView(
                                 viewModel.setLocationPreference("Map")
                                 navController.navigate(NavViewRoute.MAP)
                             }
+
                             "GPS" -> {
                                 viewModel.setLocationPreference("GPS")
                                 val location =
-                                    locationViewModel.locationState.value ?: locationViewModel.getDefaultLocation()
+                                    locationViewModel.locationState.value
+                                        ?: locationViewModel.getDefaultLocation()
                                 homeViewModel.lon = location.longitude
                                 homeViewModel.lat = location.latitude
                                 homeViewModel.refreshWeatherData()

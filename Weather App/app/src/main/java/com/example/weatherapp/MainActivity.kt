@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.core.AppColors
+import com.example.weatherapp.core.LanguageChangeHelper
 import com.example.weatherapp.features.main.viewmodel.LocationViewModel
 import com.example.weatherapp.features.main.views.SetupHomeLocation
 import com.example.weatherapp.features.settings.repo.UserPreferencesRepository
@@ -24,6 +25,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.statusBarColor = AppColors.BackgroundColor.toArgb()
+
+        val languageHelper = LanguageChangeHelper()
+        val savedLanguage = languageHelper.loadLanguagePreference(this)
+        languageHelper.changeLanguage(this, savedLanguage)
 
         locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
 
