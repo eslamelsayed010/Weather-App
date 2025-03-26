@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 object AppColors {
     val PrimaryColor = Color(0xff94d693)
+    val BackgroundColor = Color(0xff0d0129)
 
     //Gray
     val Gray50 = Color(0xFFFAFAFA)
@@ -25,10 +26,7 @@ object AppColors {
     val ThunderstormBK = Color(0xff305d3f)
     val SnowBK = Color(0xff2b454e)
 
-    //Btn Nav Bar
-    val SettingNav = Color(0xff0d0129)
-
-    //Settings
+    //Settings view
     val TitleCat = Color(0xff0091e3)
     val RadioBtn = Color(0xFF6200EE)
 }
