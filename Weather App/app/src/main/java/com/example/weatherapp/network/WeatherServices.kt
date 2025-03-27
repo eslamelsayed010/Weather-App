@@ -12,7 +12,8 @@ interface WeatherServices {
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
         @Query("appid") apiKey: String = AppConst.API_KEY,
-        @Query("units") units: String = "metric"
+        @Query("units") units: String,
+        @Query("lang") lang: String
     ): ForecastModel
 
     @GET("data/2.5/weather")
@@ -20,6 +21,7 @@ interface WeatherServices {
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
         @Query("appid") apiKey: String = AppConst.API_KEY,
-        @Query("units") units: String = "metric"
+        @Query("units") units: String,
+        @Query("lang") lang: String
     ): WeatherModel
 }

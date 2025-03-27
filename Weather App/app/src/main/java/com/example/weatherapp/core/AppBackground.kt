@@ -1,124 +1,161 @@
+@file:Suppress("DUPLICATE_LABEL_IN_WHEN")
+
 package com.example.weatherapp.core
 
 import androidx.compose.ui.graphics.Color
 
-fun getGradientColors(condition: String?): List<Color> {
-    return when (condition) {
-        "Clear", "Sunny" -> listOf(
-            Color(0xFFFFA500), // Orange
-            Color(0xFFFFD700), // Golden Yellow
-            Color(0xFFFFFACD)  // Light Sun Glow
-        )
-
-        "Clouds", "Partly cloudy", "Overcast" -> listOf(
-            Color(0xFF607D8B), // Dark Grey-Blue
-            Color(0xFF90A4AE), // Soft Grey
-            Color(0xFFCFD8DC)  // Light Grey Mist
-        )
-
-        "Mist", "Fog", "Freezing fog" -> listOf(
-            Color(0xFFB0BEC5), // Faint Grey
-            Color(0xFFECEFF1), // Soft White
-            Color(0xFFF5F5F5)  // Nearly White Fog
-        )
-
-        "Drizzle", "Light drizzle", "Freezing drizzle" -> listOf(
-            Color(0xFF64B5F6), // Light Blue
-            Color(0xFF2196F3), // Sky Blue
-            Color(0xFF1565C0)  // Deep Rain Blue
-        )
-
-        "Rain", "Moderate rain", "Heavy rain" -> listOf(
-            Color(0xFF1E88E5), // Dark Blue
-            Color(0xFF0D47A1), // Deep Blue
-            Color(0xFF263238)  // Dark Stormy Blue
-        )
-
-        "Thunderstorm", "Patchy light rain with thunder" -> listOf(
-            Color(0xFFFF8C00), // Orange for Lightning
-            Color(0xFF5D4037), // Stormy Brown
-            Color(0xFF212121)  // Dark Grey-Black
-        )
-
-        "Snow", "Blizzard", "Heavy snow" -> listOf(
-            Color(0xFFE3F2FD), // Light Ice Blue
-            Color(0xFFB0BEC5), // Frosty Grey
-            Color(0xFFF5F5F5)  // Soft White Snow
-        )
-
-        else -> listOf(
-            Color(0xFF757575), // Neutral Grey
-            Color(0xFF424242), // Dark Grey
-            Color(0xFF212121)  // Almost Black
-        )
-    }
-}
-
 fun getAnmiBK(condition: String?): String {
-    return when (condition) {
-        "Clear", "clear sky", "Sunny" -> "sunny_bk.json"
+    return when (condition?.lowercase()) {
+        // English Conditions
+        "clear", "clear sky", "sunny" -> "sunny_bk.json"
 
-        "Clouds", "few clouds", "scattered clouds", "broken clouds", "overcast clouds",
-        "Partly cloudy", "Overcast" -> "clouds_bk.json"
+        // Arabic Conditions
+        "صافٍ", "سماء صافية", "مشمس" -> "sunny_bk.json"
 
-        "Mist", "Fog", "Freezing fog", "Haze", "smoke", "haze", "sand", "dust", "volcanic ash" -> "mist_bk.json"
+        // English Conditions
+        "clouds", "few clouds", "scattered clouds", "broken clouds", "overcast clouds",
+        "partly cloudy", "overcast" -> "clouds_bk.json"
 
-        "Drizzle", "light intensity drizzle", "drizzle", "heavy intensity drizzle",
+        // Arabic Conditions
+        "غائم", "غيوم قليلة", "غيوم متفرقة", "غيوم مكسورة", "غيوم كثيفة",
+        "غائم جزئياً", "غيوم كاملة" -> "clouds_bk.json"
+
+        // English Conditions
+        "mist", "fog", "freezing fog", "haze", "smoke", "sand", "dust", "volcanic ash" -> "mist_bk.json"
+
+        // Arabic Conditions
+        "ضباب", "ضباب", "ضباب متجمد", "غيم", "دخان", "رمال", "غبار", "رماد بركاني" -> "mist_bk.json"
+
+        // English Conditions
+        "drizzle", "light intensity drizzle", "drizzle", "heavy intensity drizzle",
         "light intensity drizzle rain", "drizzle rain", "heavy intensity drizzle rain",
         "shower rain and drizzle", "heavy shower rain and drizzle",
-        "Light drizzle", "Freezing drizzle" -> "rain_bk.json"
+        "light drizzle", "freezing drizzle" -> "rain_bk.json"
 
-        "Rain", "light rain", "moderate rain", "heavy intensity rain", "very heavy rain",
+        // Arabic Conditions
+        "رذاذ", "رذاذ خفيف الكثافة", "رذاذ", "رذاذ شديد الكثافة",
+        "رذاذ مطر خفيف الكثافة", "رذاذ مطر", "رذاذ مطر شديد الكثافة",
+        "زخات مطر ورذاذ", "زخات مطر ورذاذ كثيفة",
+        "رذاذ خفيف", "رذاذ متجمد" -> "rain_bk.json"
+
+        // English Conditions
+        "rain", "light rain", "moderate rain", "heavy intensity rain", "very heavy rain",
         "extreme rain", "freezing rain", "light intensity shower rain", "shower rain",
         "heavy intensity shower rain", "ragged shower rain",
-        "Moderate rain", "Heavy rain" -> "rain_bk.json"
+        "moderate rain", "heavy rain" -> "rain_bk.json"
 
-        "Thunderstorm", "thunderstorm with light rain", "thunderstorm with rain",
-        "thunderstorm with heavy rain", "light thunderstorm", "thunderstorm", "heavy thunderstorm",
+        // Arabic Conditions
+        "مطر", "مطر خفيف", "مطر معتدل", "مطر شديد الكثافة", "مطر غزير للغاية",
+        "مطر متطرف", "مطر متجمد", "زخات مطر خفيفة الكثافة", "زخات مطر",
+        "زخات مطر شديدة الكثافة", "زخات مطر متقطعة",
+        "مطر معتدل", "مطر غزير" -> "rain_bk.json"
+
+        // English Conditions
+        "thunderstorm", "thunderstorm with light rain", "thunderstorm with rain",
+        "thunderstorm with heavy rain", "light thunderstorm", "heavy thunderstorm",
         "ragged thunderstorm", "thunderstorm with light drizzle", "thunderstorm with drizzle",
-        "thunderstorm with heavy drizzle", "Patchy light rain with thunder" -> "thunderstorm_bk.json"
+        "thunderstorm with heavy drizzle", "patchy light rain with thunder" -> "thunderstorm_bk.json"
 
-        "Snow", "light snow", "snow", "heavy snow", "sleet", "light shower sleet",
+        // Arabic Conditions
+        "عاصفة رعدية", "عاصفة رعدية مع مطر خفيف", "عاصفة رعدية مع مطر",
+        "عاصفة رعدية مع مطر غزير", "عاصفة رعدية خفيفة", "عاصفة رعدية شديدة",
+        "عاصفة رعدية متقطعة", "عاصفة رعدية مع رذاذ خفيف", "عاصفة رعدية مع رذاذ",
+        "عاصفة رعدية مع رذاذ غزير", "مطر خفيف متقطع مع رعد" -> "thunderstorm_bk.json"
+
+        // English Conditions
+        "snow", "light snow", "heavy snow", "sleet", "light shower sleet",
         "shower sleet", "light rain and snow", "rain and snow", "light shower snow",
-        "shower snow", "heavy shower snow", "Blizzard", "Heavy snow" -> "snow_bk.json"
+        "shower snow", "heavy shower snow", "blizzard", "heavy snow" -> "snow_bk.json"
 
+        // Arabic Conditions
+        "ثلج", "ثلج خفيف", "ثلج غزير", "ثلج مختلط", "زخات ثلج خفيفة مختلطة",
+        "زخات ثلج مختلطة", "مطر وثلج خفيف", "مطر وثلج", "زخات ثلج خفيفة",
+        "زخات ثلج", "زخات ثلج غزيرة", "عاصفة ثلجية", "ثلج غزير" -> "snow_bk.json"
+
+        // English Conditions
         "tornado", "squall" -> "thunderstorm_bk.json"
+
+        // Arabic Conditions
+        "إعصار", "هبة" -> "thunderstorm_bk.json"
 
         else -> "rain_bk.json"
     }
 }
 
 fun getNavBK(condition: String?): Color {
-    return when (condition) {
-        "Clear", "clear sky", "Sunny" -> AppColors.SunnyBK
+    return when (condition?.lowercase()) {
+        // English Conditions
+        "clear", "clear sky", "sunny" -> AppColors.SunnyBK
 
-        "Clouds", "few clouds", "scattered clouds", "broken clouds", "overcast clouds",
-        "Partly cloudy", "Overcast" -> AppColors.CloudsBK
+        // Arabic Conditions
+        "صافٍ", "سماء صافية", "مشمس" -> AppColors.SunnyBK
 
-        "Mist", "Fog", "Freezing fog", "Haze", "smoke", "haze", "sand", "dust", "volcanic ash" -> AppColors.MistBK
+        // English Conditions
+        "clouds", "few clouds", "scattered clouds", "broken clouds", "overcast clouds",
+        "partly cloudy", "overcast" -> AppColors.CloudsBK
 
-        "Drizzle", "light intensity drizzle", "drizzle", "heavy intensity drizzle",
+        // Arabic Conditions
+        "غائم", "غيوم قليلة", "غيوم متفرقة", "غيوم مكسورة", "غيوم كثيفة",
+        "غائم جزئياً", "غيوم كاملة" -> AppColors.CloudsBK
+
+        // English Conditions
+        "mist", "fog", "freezing fog", "haze", "smoke", "sand", "dust", "volcanic ash" -> AppColors.MistBK
+
+        // Arabic Conditions
+        "ضباب", "ضباب", "ضباب متجمد", "غيم", "دخان", "رمال", "غبار", "رماد بركاني" -> AppColors.MistBK
+
+        // English Conditions
+        "drizzle", "light intensity drizzle", "drizzle", "heavy intensity drizzle",
         "light intensity drizzle rain", "drizzle rain", "heavy intensity drizzle rain",
         "shower rain and drizzle", "heavy shower rain and drizzle",
-        "Light drizzle", "Freezing drizzle" -> AppColors.RainyBK
+        "light drizzle", "freezing drizzle" -> AppColors.RainyBK
 
-        "Rain", "light rain", "moderate rain", "heavy intensity rain", "very heavy rain",
+        // Arabic Conditions
+        "رذاذ", "رذاذ خفيف الكثافة", "رذاذ", "رذاذ شديد الكثافة",
+        "رذاذ مطر خفيف الكثافة", "رذاذ مطر", "رذاذ مطر شديد الكثافة",
+        "زخات مطر ورذاذ", "زخات مطر ورذاذ كثيفة",
+        "رذاذ خفيف", "رذاذ متجمد" -> AppColors.RainyBK
+
+        // English Conditions
+        "rain", "light rain", "moderate rain", "heavy intensity rain", "very heavy rain",
         "extreme rain", "freezing rain", "light intensity shower rain", "shower rain",
         "heavy intensity shower rain", "ragged shower rain",
-        "Moderate rain", "Heavy rain" -> AppColors.RainyBK
+        "moderate rain", "heavy rain" -> AppColors.RainyBK
 
-        "Thunderstorm", "thunderstorm with light rain", "thunderstorm with rain",
-        "thunderstorm with heavy rain", "light thunderstorm", "thunderstorm", "heavy thunderstorm",
+        // Arabic Conditions
+        "مطر", "مطر خفيف", "مطر معتدل", "مطر شديد الكثافة", "مطر غزير للغاية",
+        "مطر متطرف", "مطر متجمد", "زخات مطر خفيفة الكثافة", "زخات مطر",
+        "زخات مطر شديدة الكثافة", "زخات مطر متقطعة",
+        "مطر معتدل", "مطر غزير" -> AppColors.RainyBK
+
+        // English Conditions
+        "thunderstorm", "thunderstorm with light rain", "thunderstorm with rain",
+        "thunderstorm with heavy rain", "light thunderstorm", "heavy thunderstorm",
         "ragged thunderstorm", "thunderstorm with light drizzle", "thunderstorm with drizzle",
-        "thunderstorm with heavy drizzle", "Patchy light rain with thunder" -> AppColors.ThunderstormBK
+        "thunderstorm with heavy drizzle", "patchy light rain with thunder" -> AppColors.ThunderstormBK
 
-        "Snow", "light snow", "snow", "heavy snow", "sleet", "light shower sleet",
+        // Arabic Conditions
+        "عاصفة رعدية", "عاصفة رعدية مع مطر خفيف", "عاصفة رعدية مع مطر",
+        "عاصفة رعدية مع مطر غزير", "عاصفة رعدية خفيفة", "عاصفة رعدية شديدة",
+        "عاصفة رعدية متقطعة", "عاصفة رعدية مع رذاذ خفيف", "عاصفة رعدية مع رذاذ",
+        "عاصفة رعدية مع رذاذ غزير", "مطر خفيف متقطع مع رعد" -> AppColors.ThunderstormBK
+
+        // English Conditions
+        "snow", "light snow", "heavy snow", "sleet", "light shower sleet",
         "shower sleet", "light rain and snow", "rain and snow", "light shower snow",
-        "shower snow", "heavy shower snow", "Blizzard", "Heavy snow" -> AppColors.SnowBK
+        "shower snow", "heavy shower snow", "blizzard", "heavy snow" -> AppColors.SnowBK
 
+        // Arabic Conditions
+        "ثلج", "ثلج خفيف", "ثلج غزير", "ثلج مختلط", "زخات ثلج خفيفة مختلطة",
+        "زخات ثلج مختلطة", "مطر وثلج خفيف", "مطر وثلج", "زخات ثلج خفيفة",
+        "زخات ثلج", "زخات ثلج غزيرة", "عاصفة ثلجية", "ثلج غزير" -> AppColors.SnowBK
+
+        // English Conditions
         "tornado", "squall" -> AppColors.ThunderstormBK
 
-        else -> AppColors.Gray500
+        // Arabic Conditions
+        "إعصار", "هبة" -> AppColors.ThunderstormBK
+
+        else -> AppColors.RainyBK
     }
 }
-

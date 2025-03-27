@@ -129,4 +129,30 @@ class UserPreferencesRepository(context: Context) {
             preferences[PreferencesKeys.LONGITUDE] = lng
         }
     }
+
+    fun saveLanguagePreference(context: Context, languageCode: String) {
+        val sharedPref = context.getSharedPreferences("AppLanguagePrefs", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("language", languageCode)
+            apply()
+        }
+    }
+
+    fun loadLanguagePreference(context: Context): String {
+        val sharedPref = context.getSharedPreferences("AppLanguagePrefs", Context.MODE_PRIVATE)
+        return sharedPref.getString("language", "en") ?: "en"
+    }
+
+    fun saveUnitPreference(context: Context, unit: String) {
+        val sharedPref = context.getSharedPreferences("AppLanguagePrefs", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("unit", unit)
+            apply()
+        }
+    }
+
+    fun loadUnitPreference(context: Context): String {
+        val sharedPref = context.getSharedPreferences("AppLanguagePrefs", Context.MODE_PRIVATE)
+        return sharedPref.getString("unit", "metric") ?: "metric"
+    }
 }

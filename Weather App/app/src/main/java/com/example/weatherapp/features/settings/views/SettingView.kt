@@ -38,6 +38,7 @@ import com.example.weatherapp.core.NavViewRoute
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.main.viewmodel.LocationViewModel
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
+import java.util.Locale
 
 @Composable
 fun SettingView(
@@ -112,9 +113,21 @@ fun SettingView(
                     onOptionSelected = { option ->
                         viewModel.setLangPreference(option)
                         val languageCode = when (option) {
-                            "English" -> "en"
-                            "Arabic" -> "ar"
-                            "Default" -> "Default"
+                            "English" -> {
+                                homeViewModel.lang = "en"
+                                "en"
+                            }
+
+                            "Arabic" -> {
+                                homeViewModel.lang = "ar"
+                                "ar"
+                            }
+
+                            "Default" -> {
+                                homeViewModel.lang = Locale.getDefault().language
+                                "Default"
+                            }
+
                             else -> "en"
                         }
 
@@ -157,6 +170,25 @@ fun SettingView(
                     selectedOption = tempPreference,
                     onOptionSelected = { option ->
                         viewModel.setTempPreference(option)
+                        when (option) {
+                            "Celsius${AppConst.TEMP_DEGREE}C" -> {
+                                languageChangeHelper.saveUnitPreference(context, "metric")
+                                homeViewModel.unit = "metric"
+                            }
+
+                            "Kelvin${AppConst.TEMP_DEGREE}K" -> {
+                                languageChangeHelper.saveUnitPreference(context, "standard")
+                                homeViewModel.unit = "standard"
+                            }
+
+                            "Fahrenheit${AppConst.TEMP_DEGREE}F" -> {
+                                languageChangeHelper.saveUnitPreference(context, "imperial")
+                                homeViewModel.unit = "imperial"
+                            }
+
+                            else -> homeViewModel.unit = "metric"
+                        }
+                        homeViewModel.refreshWeatherData()
                     }
                 )
                 CustomSettingsDivider()

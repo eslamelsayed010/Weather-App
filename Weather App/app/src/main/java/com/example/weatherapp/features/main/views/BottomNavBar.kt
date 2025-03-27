@@ -81,7 +81,7 @@ fun BottomNavBar(navController: NavHostController, viewModel: HomeViewModel) {
                 label = {
                     Text(
                         item.label,
-                        color = if (currentRoute == item.route) Color.White else Color.White
+                        color = if (currentRoute == item.route) AppColors.PrimaryColor  else Color.White
                     )
                 },
                 selected = currentRoute == item.route,

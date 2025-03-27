@@ -18,7 +18,7 @@ fun NavigationGraph(
     settingsViewModel: SettingsViewModel,
     locationViewModel: LocationViewModel
 ) {
-    NavHost(navController, startDestination = "home") {
+    NavHost(navController, startDestination = NavViewRoute.HOME) {
         composable(NavViewRoute.HOME) { HomeView(viewModel) }
         composable(NavViewRoute.SETTINGS) {
             SettingView(

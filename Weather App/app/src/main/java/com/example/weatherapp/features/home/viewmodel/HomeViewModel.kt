@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.core.AppConst
 import com.example.weatherapp.core.Response
-import com.example.weatherapp.core.WeatherRepo
+import com.example.weatherapp.features.home.repo.WeatherRepo
 import com.example.weatherapp.core.models.DailyForecast
 import com.example.weatherapp.core.models.ThreeHourForecast
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +28,9 @@ import java.util.Locale
 class HomeViewModel(
     private val repo: WeatherRepo,
     var lat: Double,
-    var lon: Double
+    var lon: Double,
+    var unit: String,
+    var lang: String
 ) : ViewModel() {
     private var mutList = MutableStateFlow<Response>(Response.Loading)
     val weatherModelResponse = mutList.asStateFlow()
@@ -71,7 +73,7 @@ class HomeViewModel(
     private fun getCurrentWeather() {
         viewModelScope.launch {
             try {
-                val forecasts = repo.getCurrentWeather(lat, lon)
+                val forecasts = repo.getCurrentWeather(lat, lon, unit, lang)
                 forecasts.catch { ex ->
                     mutList.value = Response.Failure(ex)
                     _toastEvent.emit("Error From Response: ${ex.message}")
@@ -200,7 +202,7 @@ class HomeViewModel(
 
     private fun forecastUrl(): JSONObject {
         val url =
-            URL("https://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lon&appid=${AppConst.API_KEY}&units=metric")
+            URL("https://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lon&appid=${AppConst.API_KEY}&units=$unit&lang=$lang")
         val response = url.readText()
         return JSONObject(response)
     }
@@ -219,10 +221,12 @@ class HomeViewModel(
 class HomeFactory(
     private val repo: WeatherRepo,
     private val lat: Double,
-    private val log: Double
+    private val log: Double,
+    private val unit: String,
+    private val lang: String,
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return HomeViewModel(repo, lat, log) as T
+        return HomeViewModel(repo, lat, log, unit, lang) as T
     }
 }

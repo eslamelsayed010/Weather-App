@@ -4,6 +4,7 @@ package com.example.weatherapp
 
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.graphics.toArgb
@@ -26,19 +27,23 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         window.statusBarColor = AppColors.BackgroundColor.toArgb()
 
-        val languageHelper = LanguageChangeHelper()
-        val savedLanguage = languageHelper.loadLanguagePreference(this)
-        languageHelper.changeLanguage(this, savedLanguage)
-
         locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
 
         val settingsViewModel =
             ViewModelProvider(
                 this,
                 SettingsViewModelFactory(
-                    UserPreferencesRepository(applicationContext)
+                    UserPreferencesRepository(this),
+                    this
                 )
             )[SettingsViewModel::class.java]
+
+        val languageHelper = LanguageChangeHelper()
+        val savedLanguage = languageHelper.getLanguageCode(this)
+        Log.i("savedLanguage", savedLanguage)
+        val savedUnit = settingsViewModel.unitPreference
+        Log.i("savedUnit", savedUnit)
+        languageHelper.changeLanguage(this, savedLanguage)
 
         setContent {
             val location =
@@ -48,7 +53,9 @@ class MainActivity : ComponentActivity() {
                 settingsViewModel,
                 location,
                 locationViewModel,
-                this
+                this,
+                savedUnit,
+                savedLanguage
             )
         }
     }

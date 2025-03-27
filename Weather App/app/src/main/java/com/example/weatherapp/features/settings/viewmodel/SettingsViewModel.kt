@@ -14,7 +14,8 @@ import kotlinx.coroutines.withContext
 import java.util.Locale
 
 class SettingsViewModel(
-    private val userPreferencesRepository: UserPreferencesRepository
+    private val userPreferencesRepository: UserPreferencesRepository,
+    context: Context
 ) : ViewModel() {
 
     val langPreference = userPreferencesRepository.languagePreference
@@ -23,6 +24,16 @@ class SettingsViewModel(
     val windPreference = userPreferencesRepository.windSpeedPreference
     val mapLat = userPreferencesRepository.latitude
     val mapLon = userPreferencesRepository.longitude
+    val langCodePreference = userPreferencesRepository.loadLanguagePreference(context)
+    val unitPreference = userPreferencesRepository.loadUnitPreference(context)
+
+    fun setLangCode(context: Context, preference: String) {
+        userPreferencesRepository.saveLanguagePreference(context, preference)
+    }
+
+    fun setUnit(context: Context, preference: String) {
+        userPreferencesRepository.saveUnitPreference(context, preference)
+    }
 
     fun setLangPreference(preference: String) {
         viewModelScope.launch {
@@ -91,9 +102,10 @@ class SettingsViewModel(
 
 @Suppress("UNCHECKED_CAST")
 class SettingsViewModelFactory(
-    private val userPreferencesRepository: UserPreferencesRepository
+    private val userPreferencesRepository: UserPreferencesRepository,
+    private val context: Context
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return SettingsViewModel(userPreferencesRepository) as T
+        return SettingsViewModel(userPreferencesRepository, context) as T
     }
 }

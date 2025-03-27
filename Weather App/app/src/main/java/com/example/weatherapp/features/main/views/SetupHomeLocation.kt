@@ -6,7 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.MainActivity
 import com.example.weatherapp.core.CustomAnmiLoading
-import com.example.weatherapp.core.WeatherRepo
+import com.example.weatherapp.features.home.repo.WeatherRepo
 import com.example.weatherapp.features.home.viewmodel.HomeFactory
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.main.viewmodel.LocationViewModel
@@ -19,7 +19,9 @@ fun SetupHomeLocation(
     settingsViewModel: SettingsViewModel,
     location: Location,
     locationViewModel: LocationViewModel,
-    requiredActivity: MainActivity
+    requiredActivity: MainActivity,
+    unit: String = "metric",
+    lang: String = "en"
 ) {
     val locationPref =
         settingsViewModel.locationPreference.collectAsState(initial = "GPS").value
@@ -44,7 +46,9 @@ fun SetupHomeLocation(
         val homeFactory = HomeFactory(
             WeatherRepo.getInstance(WeatherRemoteDataSource(RetrofitHelper)),
             finalLatitude,
-            finalLongitude
+            finalLongitude,
+            unit,
+            lang
         )
         val weatherViewModel =
             ViewModelProvider(requiredActivity, homeFactory)[HomeViewModel::class.java]

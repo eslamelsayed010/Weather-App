@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -49,7 +50,6 @@ fun Custom5NextDayItem(dailyForecast: DailyForecast) {
             .border(2.dp, Color.Transparent, RoundedCornerShape(15.dp))
             .background(Color.Transparent.copy(alpha = 0.3f), RoundedCornerShape(15.dp))
             .fillMaxWidth()
-            .height(200.dp)
             .padding(15.dp)
     ) {
         Column(
@@ -91,6 +91,7 @@ fun Custom5NextDayItem(dailyForecast: DailyForecast) {
                 )
                 Row(
                     Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
