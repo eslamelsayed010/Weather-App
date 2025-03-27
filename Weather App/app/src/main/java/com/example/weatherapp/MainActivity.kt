@@ -4,7 +4,6 @@ package com.example.weatherapp
 
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.graphics.toArgb
@@ -39,10 +38,10 @@ class MainActivity : ComponentActivity() {
             )[SettingsViewModel::class.java]
 
         val languageHelper = LanguageChangeHelper()
-        val savedLanguage = languageHelper.getLanguageCode(this)
-        Log.i("savedLanguage", savedLanguage)
-        val savedUnit = settingsViewModel.unitPreference
-        Log.i("savedUnit", savedUnit)
+        val savedLanguage = languageHelper.loadLanguagePreference(this)
+
+        val savedUnit = languageHelper.loadUnitPreference(this)
+
         languageHelper.changeLanguage(this, savedLanguage)
 
         setContent {
