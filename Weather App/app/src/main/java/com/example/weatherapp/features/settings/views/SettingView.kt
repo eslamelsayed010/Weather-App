@@ -16,6 +16,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -67,15 +69,18 @@ fun SettingView(
 
     val radioOptionsLang = listOf("English", "Arabic", "Default")
     val radioOptionsLocation = listOf("GPS", "Map")
-    val radioOptionsTemp = listOf(
-        "Celsius${AppConst.TEMP_DEGREE}C",
-        "Kelvin${AppConst.TEMP_DEGREE}K",
-        "Fahrenheit${AppConst.TEMP_DEGREE}F"
-    )
-    val radioOptionsWind = listOf(
-        "Meter/Sec",
-        "Mile/Hour",
-    )
+
+    val radioOptionsTemp by remember {
+        mutableStateOf(
+            listOf(
+                "Celsius${AppConst.TEMP_DEGREE}C",
+                "Kelvin${AppConst.TEMP_DEGREE}K",
+                "Fahrenheit${AppConst.TEMP_DEGREE}F"
+            )
+        )
+    }
+
+    val radioOptionsWind by remember { mutableStateOf(listOf("Meter/Sec", "Mile/Hour")) }
 
     Column(
         Modifier
@@ -174,19 +179,20 @@ fun SettingView(
                             "Celsius${AppConst.TEMP_DEGREE}C" -> {
                                 languageChangeHelper.saveUnitPreference(context, "metric")
                                 homeViewModel.unit = "metric"
+                                viewModel.setWindPreference("Mile/Hour")
                             }
 
                             "Kelvin${AppConst.TEMP_DEGREE}K" -> {
                                 languageChangeHelper.saveUnitPreference(context, "standard")
                                 homeViewModel.unit = "standard"
+                                viewModel.setWindPreference("Mile/Hour")
                             }
 
                             "Fahrenheit${AppConst.TEMP_DEGREE}F" -> {
                                 languageChangeHelper.saveUnitPreference(context, "imperial")
                                 homeViewModel.unit = "imperial"
+                                viewModel.setWindPreference("Meter/Sec")
                             }
-
-                            else -> homeViewModel.unit = "metric"
                         }
                         homeViewModel.refreshWeatherData()
                     }
@@ -198,7 +204,22 @@ fun SettingView(
                     radioOptions = radioOptionsWind,
                     selectedOption = windPreference,
                     onOptionSelected = { option ->
+
                         viewModel.setWindPreference(option)
+                        when (option) {
+                            "Meter/Sec" -> {
+                                languageChangeHelper.saveUnitPreference(context, "imperial")
+                                homeViewModel.unit = "imperial"
+                                viewModel.setTempPreference("Fahrenheit${AppConst.TEMP_DEGREE}F")
+                            }
+
+                            "Mile/Hour" -> {
+                                languageChangeHelper.saveUnitPreference(context, "metric")
+                                homeViewModel.unit = "metric"
+                                viewModel.setTempPreference("Celsius${AppConst.TEMP_DEGREE}C")
+                            }
+                        }
+                        homeViewModel.refreshWeatherData()
                     }
                 )
             }
