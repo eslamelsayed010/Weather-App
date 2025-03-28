@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.R
@@ -28,21 +29,29 @@ import com.example.weatherapp.core.AppColors
 import com.example.weatherapp.core.AppConst
 import com.example.weatherapp.core.CustomForecastDivider
 import com.example.weatherapp.core.models.DailyForecast
+import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun Custom5NextDay(fiveDayForecast: List<DailyForecast>) {
+fun Custom5NextDay(fiveDayForecast: List<DailyForecast>, homeViewModel: HomeViewModel) {
     val context = LocalContext.current
     CustomForecastDivider(context.getString(R.string.Next_five_Days))
     for (element in fiveDayForecast) {
-        Custom5NextDayItem(element)
+        Custom5NextDayItem(element, homeViewModel)
         Spacer(Modifier.height(20.dp))
     }
 }
 
 @SuppressLint("DefaultLocale")
 @Composable
-fun Custom5NextDayItem(dailyForecast: DailyForecast) {
+fun Custom5NextDayItem(dailyForecast: DailyForecast, homeViewModel: HomeViewModel) {
+    val tempUnit: String = when (homeViewModel.unit) {
+        "metric" -> stringResource(R.string.C_UNIT)
+        "standard" -> stringResource(R.string.K_UNIT)
+        "imperial" -> stringResource(R.string.F_UNIT)
+        else -> AppConst.TEMP_DEGREE
+    }
+
     val context = LocalContext.current
     Box(
         modifier = Modifier
@@ -73,32 +82,58 @@ fun Custom5NextDayItem(dailyForecast: DailyForecast) {
                 )
             }
             Column {
-                Text(
-                    context.getString(R.string.H) +
-                            String.format(
-                                "%.2f%s",
-                                dailyForecast.maxTemperature,
-                                AppConst.TEMP_DEGREE
-                            ) +
-                            context.getString(R.string.L) +
-                            String.format(
-                                "%.2f%s",
-                                dailyForecast.minTemperature,
-                                AppConst.TEMP_DEGREE
-                            ),
-                    fontSize = 20.sp,
-                    color = Color.LightGray
-                )
+                Row {
+                    Row {
+                        Text(
+                            context.getString(R.string.H) + " " +
+                                    String.format("%.1f", dailyForecast.maxTemperature),
+                            modifier = Modifier.alignBy { _ -> 0 },
+                            fontSize = 20.sp,
+                            color = Color.LightGray
+                        )
+                        Text(
+                            tempUnit,
+                            color = Color.LightGray,
+                            fontSize = 15.sp,
+                            modifier = Modifier.alignBy { _ -> 0 }
+                        )
+                    }
+                    Spacer(Modifier.width(5.dp))
+                    Row {
+                        Text(
+                            context.getString(R.string.L) + " " +
+                                    String.format("%.1f", dailyForecast.minTemperature),
+                            modifier = Modifier.alignBy { _ -> 0 },
+                            fontSize = 20.sp,
+                            color = Color.LightGray
+                        )
+                        Text(
+                            tempUnit,
+                            color = Color.LightGray,
+                            fontSize = 15.sp,
+                            modifier = Modifier.alignBy { _ -> 0 }
+                        )
+                    }
+                }
                 Row(
                     Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(
-                        String.format("%.2f%s", dailyForecast.avgTemperature, AppConst.TEMP_DEGREE),
-                        fontSize = 40.sp,
-                        color = Color.White
-                    )
+                    Row {
+                        Text(
+                            String.format("%.2f", dailyForecast.avgTemperature),
+                            modifier = Modifier.alignBy { _ -> 0 },
+                            fontSize = 40.sp,
+                            color = Color.White
+                        )
+                        Text(
+                            tempUnit,
+                            color = Color.White,
+                            fontSize = 30.sp,
+                            modifier = Modifier.alignBy { _ -> 0 }
+                        )
+                    }
                     Text(
                         dailyForecast.weatherDescription,
                         fontSize = 22.sp,

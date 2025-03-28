@@ -22,15 +22,24 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.R
 import com.example.weatherapp.core.models.WeatherModel
+import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 
 @Composable
-fun CustomMoreDevitalises(weatherModel: WeatherModel) {
+fun CustomMoreDevitalises(weatherModel: WeatherModel, homeViewModel: HomeViewModel) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp + 100.dp
     val context = LocalContext.current
+
+    val windUnit: String = when (homeViewModel.unit) {
+        "metric" -> stringResource(R.string.M_H)
+        "standard" -> stringResource(R.string.M_H)
+        "imperial" -> stringResource(R.string.M_S)
+        else -> stringResource(R.string.M_H)
+    }
 
     Box(
         modifier = Modifier
@@ -38,7 +47,7 @@ fun CustomMoreDevitalises(weatherModel: WeatherModel) {
             .border(2.dp, Color.Transparent, RoundedCornerShape(15.dp))
             .background(Color.Transparent.copy(alpha = 0.3f), RoundedCornerShape(15.dp))
             .width(screenWidth / 2)
-            .height(130.dp)
+            .height(150.dp)
             .padding(8.dp)
     ) {
         Column(
@@ -52,7 +61,7 @@ fun CustomMoreDevitalises(weatherModel: WeatherModel) {
             ) {
                 CustomDetailItem(
                     type = context.getString(R.string.Wind_Speed),
-                    unit = context.getString(R.string.M_S),
+                    unit = windUnit,
                     measure = weatherModel.wind.speed
                 )
                 CustomDetailItem(

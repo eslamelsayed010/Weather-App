@@ -8,7 +8,8 @@
     <string name="L">ادني: </string>
     <string name="There_is_an_error">هناك خطأ</string>
     <string name="Wind_Speed">سرعة الرياح</string>
-    <string name="M_S">م/ث</string>
+    <string name="M_S">متر/ثانيه</string>
+    <string name="M_H">ميل/ساعه</string>
     <string name="Pressure">الضغط</string>
     <string name="hPa">هـ.ب</string>
     <string name="Humidity">الرطوبة</string>
@@ -43,4 +44,9 @@
 
     <string name="wind_meter_sec">متر/ثانية</string>
     <string name="wind_mile_hour">ميل/ساعة</string>
+
+    <!--temp unit-->
+    <string name="C_UNIT">°س</string>
+    <string name="K_UNIT">°ك</string>
+    <string name="F_UNIT">°ف</string>
 </resources>

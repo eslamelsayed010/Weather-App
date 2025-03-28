@@ -3,11 +3,12 @@
 
     <!--home-->
     <string name="Next_five_Days">Next Five Days</string>
-    <string name="H">H: </string>
-    <string name="L">L: </string>
+    <string name="H">High: </string>
+    <string name="L">Low: </string>
     <string name="There_is_an_error">There is an error</string>
     <string name="Wind_Speed">Wind Speed</string>
-    <string name="M_S">m/s</string>
+    <string name="M_S">meter/sec</string>
+    <string name="M_H">mile/hour</string>
     <string name="Pressure">Pressure</string>
     <string name="hPa">hPa</string>
     <string name="Humidity">Humidity</string>
@@ -42,4 +43,9 @@
 
     <string name="wind_meter_sec">Meter/Sec</string>
     <string name="wind_mile_hour">Mile/Hour</string>
+
+    <!--temp unit-->
+    <string name="C_UNIT">°C</string>
+    <string name="K_UNIT">°K</string>
+    <string name="F_UNIT">°F</string>
 </resources>

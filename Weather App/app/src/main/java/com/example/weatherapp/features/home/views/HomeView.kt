@@ -56,13 +56,13 @@ fun HomeView(viewModel: HomeViewModel) {
                 ) {
                     CustomCountryDataTitle(weatherModel, viewModel)
                     Spacer(Modifier.height(50.dp))
-                    CustomCountryIconDegree(weatherModel)
+                    CustomCountryIconDegree(weatherModel, viewModel)
                     Spacer(Modifier.height(10.dp))
-                    CustomWeatherStatus(weatherModel)
+                    CustomWeatherStatus(weatherModel, viewModel)
                     Spacer(Modifier.height(20.dp))
-                    CustomForecast3Hourly(current3HourForecast)
+                    CustomForecast3Hourly(current3HourForecast, viewModel)
                     Spacer(Modifier.height(20.dp))
-                    Custom5NextDay(fiveDayForecast)
+                    Custom5NextDay(fiveDayForecast, viewModel)
                 }
             }
         }

@@ -6,5 +6,7 @@ object AppConst {
     const val IMAGE_URL = "https://openweathermap.org/img/wn/"
     const val IMAGE_EXE = "@2x.png"
     const val TEMP_DEGREE = "°"
-
+    const val C_UNIT = TEMP_DEGREE + "C"
+    const val F_UNIT = TEMP_DEGREE + "F"
+    const val K_UNIT = TEMP_DEGREE + "K"
 }

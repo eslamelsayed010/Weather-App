@@ -14,15 +14,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.weatherapp.R
 import com.example.weatherapp.core.AppConst
 import com.example.weatherapp.core.models.WeatherModel
+import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.skydoves.landscapist.glide.GlideImage
 
 @SuppressLint("DefaultLocale")
 @Composable
-fun CustomCountryIconDegree(weatherModel: WeatherModel) {
+fun CustomCountryIconDegree(weatherModel: WeatherModel, homeViewModel: HomeViewModel) {
+    val tempUnit: String = when (homeViewModel.unit) {
+        "metric" -> stringResource(R.string.C_UNIT)
+        "standard" -> stringResource(R.string.K_UNIT)
+        "imperial" -> stringResource(R.string.F_UNIT)
+        else -> AppConst.TEMP_DEGREE
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -42,12 +52,20 @@ fun CustomCountryIconDegree(weatherModel: WeatherModel) {
                     fontSize = 30.sp,
                     color = Color.Black
                 )
-                Text(
-                    String.format("%.2f%s", weatherModel.main.temp, AppConst.TEMP_DEGREE),
-                    Modifier.align(Alignment.CenterHorizontally),
-                    fontSize = 60.sp,
-                    color = Color.Black
-                )
+                Row {
+                    Text(
+                        String.format("%.2f", weatherModel.main.temp),
+                        modifier = Modifier.alignBy { _ -> 0 },
+                        fontSize = 60.sp,
+                        color = Color.Black
+                    )
+                    Text(
+                        tempUnit,
+                        color = Color.Black,
+                        fontSize = 35.sp,
+                        modifier = Modifier.alignBy { _ -> 0 }
+                    )
+                }
 
             }
             GlideImage(
@@ -58,6 +76,6 @@ fun CustomCountryIconDegree(weatherModel: WeatherModel) {
 
         }
         Spacer(Modifier.height(5.dp))
-        CustomMoreDevitalises(weatherModel)
+        CustomMoreDevitalises(weatherModel, homeViewModel)
     }
 }
