@@ -179,19 +179,19 @@ fun SettingView(
                             "Celsius${AppConst.TEMP_DEGREE}C" -> {
                                 languageChangeHelper.saveUnitPreference(context, "metric")
                                 homeViewModel.unit = "metric"
-                                viewModel.setWindPreference("Mile/Hour")
+                                viewModel.setWindPreference("Meter/Sec")
                             }
 
                             "Kelvin${AppConst.TEMP_DEGREE}K" -> {
                                 languageChangeHelper.saveUnitPreference(context, "standard")
                                 homeViewModel.unit = "standard"
-                                viewModel.setWindPreference("Mile/Hour")
+                                viewModel.setWindPreference("Meter/Sec")
                             }
 
                             "Fahrenheit${AppConst.TEMP_DEGREE}F" -> {
                                 languageChangeHelper.saveUnitPreference(context, "imperial")
                                 homeViewModel.unit = "imperial"
-                                viewModel.setWindPreference("Meter/Sec")
+                                viewModel.setWindPreference("Mile/Hour")
                             }
                         }
                         homeViewModel.refreshWeatherData()
@@ -208,15 +208,15 @@ fun SettingView(
                         viewModel.setWindPreference(option)
                         when (option) {
                             "Meter/Sec" -> {
-                                languageChangeHelper.saveUnitPreference(context, "imperial")
-                                homeViewModel.unit = "imperial"
-                                viewModel.setTempPreference("Fahrenheit${AppConst.TEMP_DEGREE}F")
-                            }
-
-                            "Mile/Hour" -> {
                                 languageChangeHelper.saveUnitPreference(context, "metric")
                                 homeViewModel.unit = "metric"
                                 viewModel.setTempPreference("Celsius${AppConst.TEMP_DEGREE}C")
+                            }
+
+                            "Mile/Hour" -> {
+                                languageChangeHelper.saveUnitPreference(context, "imperial")
+                                homeViewModel.unit = "imperial"
+                                viewModel.setTempPreference("Fahrenheit${AppConst.TEMP_DEGREE}F")
                             }
                         }
                         homeViewModel.refreshWeatherData()
