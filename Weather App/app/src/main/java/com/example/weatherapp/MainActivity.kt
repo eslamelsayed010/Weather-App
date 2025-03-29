@@ -27,7 +27,6 @@ class MainActivity : ComponentActivity() {
         window.statusBarColor = AppColors.BackgroundColor.toArgb()
 
         locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
-
         val settingsViewModel =
             ViewModelProvider(
                 this,
@@ -39,15 +38,12 @@ class MainActivity : ComponentActivity() {
 
         val languageHelper = LanguageChangeHelper()
         val savedLanguage = languageHelper.loadLanguagePreference(this)
-
         val savedUnit = languageHelper.loadUnitPreference(this)
-
         languageHelper.changeLanguage(this, savedLanguage)
 
         setContent {
             val location =
                 locationViewModel.locationState.value ?: locationViewModel.getDefaultLocation()
-
             SetupHomeLocation(
                 settingsViewModel,
                 location,
