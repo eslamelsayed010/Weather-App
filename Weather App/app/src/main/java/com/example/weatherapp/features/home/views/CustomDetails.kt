@@ -35,9 +35,9 @@ fun CustomMoreDevitalises(weatherModel: WeatherModel, homeViewModel: HomeViewMod
     val context = LocalContext.current
 
     val windUnit: String = when (homeViewModel.unit) {
-        "metric" -> stringResource(R.string.M_H)
-        "standard" -> stringResource(R.string.M_H)
-        "imperial" -> stringResource(R.string.M_S)
+        "metric" -> stringResource(R.string.M_S)
+        "standard" -> stringResource(R.string.M_S)
+        "imperial" -> stringResource(R.string.M_H)
         else -> stringResource(R.string.M_H)
     }
 
