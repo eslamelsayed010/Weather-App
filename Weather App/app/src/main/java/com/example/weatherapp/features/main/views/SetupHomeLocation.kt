@@ -19,8 +19,8 @@ fun SetupHomeLocation(
     location: Location,
     locationViewModel: LocationViewModel,
     requiredActivity: MainActivity,
-    unit: String = "metric",
-    lang: String = "en"
+    unit: String,
+    lang: String
 ) {
     val locationPref =
         settingsViewModel.locationPreference.collectAsState(initial = "GPS").value
@@ -41,14 +41,12 @@ fun SetupHomeLocation(
         }
     }
     val homeFactory = HomeFactory(
-        WeatherRepo.getInstance(WeatherRemoteDataSource(RetrofitHelper)),
-        finalLatitude,
-        finalLongitude,
-        unit,
-        lang
+        WeatherRepo.getInstance(WeatherRemoteDataSource(RetrofitHelper))
     )
     val weatherViewModel =
         ViewModelProvider(requiredActivity, homeFactory)[HomeViewModel::class.java]
+    weatherViewModel.initWeatherData(finalLatitude, finalLongitude, unit, lang)
+
     MainView(
         weatherViewModel,
         settingsViewModel,

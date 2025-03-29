@@ -34,7 +34,10 @@ fun HomeView(viewModel: HomeViewModel) {
     when {
         dataState is Response.Loading
                 && current3HourForecast.isEmpty()
-                && fiveDayForecast.isEmpty() -> {
+                && fiveDayForecast.isEmpty()
+                && viewModel.lat != 0.0
+                && viewModel.lon != 0.0
+            -> {
             CustomAnmiLoading()
         }
 
