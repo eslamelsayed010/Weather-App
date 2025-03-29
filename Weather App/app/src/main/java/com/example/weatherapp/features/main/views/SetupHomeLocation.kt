@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.MainActivity
-import com.example.weatherapp.core.CustomAnmiLoading
 import com.example.weatherapp.features.home.repo.WeatherRepo
 import com.example.weatherapp.features.home.viewmodel.HomeFactory
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
@@ -41,23 +40,18 @@ fun SetupHomeLocation(
             Pair(0.0, 0.0)
         }
     }
-
-    if (finalLatitude != 0.0 && finalLongitude != 0.0) {
-        val homeFactory = HomeFactory(
-            WeatherRepo.getInstance(WeatherRemoteDataSource(RetrofitHelper)),
-            finalLatitude,
-            finalLongitude,
-            unit,
-            lang
-        )
-        val weatherViewModel =
-            ViewModelProvider(requiredActivity, homeFactory)[HomeViewModel::class.java]
-        MainView(
-            weatherViewModel,
-            settingsViewModel,
-            locationViewModel
-        )
-    } else {
-        CustomAnmiLoading()
-    }
+    val homeFactory = HomeFactory(
+        WeatherRepo.getInstance(WeatherRemoteDataSource(RetrofitHelper)),
+        finalLatitude,
+        finalLongitude,
+        unit,
+        lang
+    )
+    val weatherViewModel =
+        ViewModelProvider(requiredActivity, homeFactory)[HomeViewModel::class.java]
+    MainView(
+        weatherViewModel,
+        settingsViewModel,
+        locationViewModel
+    )
 }
