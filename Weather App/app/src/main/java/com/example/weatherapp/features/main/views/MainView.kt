@@ -1,5 +1,7 @@
 package com.example.weatherapp.features.main.views
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -14,6 +16,7 @@ import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.main.viewmodel.LocationViewModel
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainView(
     viewModel: HomeViewModel,

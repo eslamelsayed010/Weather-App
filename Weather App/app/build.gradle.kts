@@ -108,4 +108,10 @@ dependencies {
     //Shared pref
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+    // WorkManager
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
+
+    // Time picker
+    implementation("com.maxkeppeler.sheets-compose-dialogs:core:1.2.0")
+    implementation("com.maxkeppeler.sheets-compose-dialogs:clock:1.2.0")
 }

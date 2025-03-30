@@ -7,4 +7,5 @@ object NavViewRoute {
     const val FAVORITE = "favorite"
     const val ALERT = "alert"
     const val MAP = "map"
+    const val NOTIFICATION = "notification"
 }

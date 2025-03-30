@@ -29,4 +29,6 @@ object AppColors {
     //Settings view
     val TitleCat = Color(0xff0091e3)
     val RadioBtn = Color(0xFF6200EE)
+
+    val txtFormField = Color(0xff7762d8)
 }

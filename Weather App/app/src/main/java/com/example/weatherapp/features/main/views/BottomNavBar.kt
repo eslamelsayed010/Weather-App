@@ -41,19 +41,13 @@ fun BottomNavBar(navController: NavHostController, viewModel: HomeViewModel) {
     val items = listOf(
         BottomNavItem(context.getString(R.string.home), Icons.Default.Home, NavViewRoute.HOME),
         BottomNavItem(
-            context.getString(R.string.favorite),
-            Icons.Default.Favorite,
-            NavViewRoute.FAVORITE
+            context.getString(R.string.favorite), Icons.Default.Favorite, NavViewRoute.FAVORITE
         ),
         BottomNavItem(
-            context.getString(R.string.alert),
-            Icons.Default.Notifications,
-            NavViewRoute.ALERT
+            context.getString(R.string.alert), Icons.Default.Notifications, NavViewRoute.NOTIFICATION
         ),
         BottomNavItem(
-            context.getString(R.string.settings),
-            Icons.Default.Settings,
-            NavViewRoute.SETTINGS
+            context.getString(R.string.settings), Icons.Default.Settings, NavViewRoute.SETTINGS
         )
     )
 
@@ -62,7 +56,7 @@ fun BottomNavBar(navController: NavHostController, viewModel: HomeViewModel) {
     val colors = listOf(
         baseBackgroundColor,
         AppColors.BackgroundColor,
-        AppColors.BackgroundColor,
+        AppColors.PrimaryColor,
         AppColors.BackgroundColor
     )
 
@@ -81,7 +75,7 @@ fun BottomNavBar(navController: NavHostController, viewModel: HomeViewModel) {
                 label = {
                     Text(
                         item.label,
-                        color = if (currentRoute == item.route) AppColors.PrimaryColor  else Color.White
+                        color = if (currentRoute == item.route) Color.White else Color.White
                     )
                 },
                 selected = currentRoute == item.route,
@@ -94,11 +88,6 @@ fun BottomNavBar(navController: NavHostController, viewModel: HomeViewModel) {
                         restoreState = true
                     }
                 },
-//                colors = NavigationBarItemDefaults.colors(
-//                    selectedIconColor = Color.Yellow,
-//                    selectedTextColor = Color.Yellow,
-//                    indicatorColor = backgroundColor.copy(alpha = 0.5f)
-//                )
             )
         }
     }
