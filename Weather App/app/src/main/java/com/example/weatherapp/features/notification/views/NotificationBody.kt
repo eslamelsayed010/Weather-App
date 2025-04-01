@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.weatherapp.R
 import com.example.weatherapp.features.notification.model.NotificationModel
@@ -34,16 +35,25 @@ fun NotificationBody(notificationViewModel: NotificationViewModel) {
 
     var selectedHour by remember { mutableIntStateOf(12) }
     var selectedMinute by remember { mutableIntStateOf(0) }
-    var selectedDay by remember { mutableIntStateOf(0) } // 0 = Sunday
-    var notificationTitle by remember { mutableStateOf("My Notification") }
-    var notificationMessage by remember { mutableStateOf("This is a scheduled notification") }
+    var selectedDay by remember { mutableIntStateOf(0) }
+    var notificationTitle by remember { mutableStateOf(context.getString(R.string.metéo)) }
+    var notificationMessage by remember { mutableStateOf(context.getString(R.string.Check)) }
     var showTimePicker by remember { mutableStateOf(false) }
     var showDayPicker by remember { mutableStateOf(false) }
 
     val days = listOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
-    val dayText = days[selectedDay]
+    val localizedOption = when (days[selectedDay]) {
+        "Sunday" -> stringResource(R.string.sunday)
+        "Monday" -> stringResource(R.string.monday)
+        "Tuesday" -> stringResource(R.string.tuesday)
+        "Wednesday" -> stringResource(R.string.wednesday)
+        "Thursday" -> stringResource(R.string.thursday)
+        "Friday" -> stringResource(R.string.friday)
+        "Saturday" -> stringResource(R.string.saturday)
+        else -> days[selectedDay]
+    }
     val timeText = String.format("%02d:%02d", selectedHour, selectedMinute)
-    val dateText = "$dayText, $timeText"
+    val dateText = "$localizedOption, $timeText"
 
     Column(
         Modifier.fillMaxSize(),
@@ -53,13 +63,13 @@ fun NotificationBody(notificationViewModel: NotificationViewModel) {
         CustomNotificationTextFromField(
             value = notificationTitle,
             onValueChange = { notificationTitle = it },
-            label = "Notification Title"
+            label = stringResource(R.string.Notification_Title)
         )
 
         CustomNotificationTextFromField(
             value = notificationMessage,
             onValueChange = { notificationMessage = it },
-            label = "Notification Message",
+            label = stringResource(R.string.Notification_Message),
             imageVector = Icons.Default.Edit
         )
 
@@ -67,7 +77,7 @@ fun NotificationBody(notificationViewModel: NotificationViewModel) {
 
         CustomNotificationButton(
             onClick = { showDayPicker = true },
-            text = "Select Day: $dayText",
+            text = "${stringResource(R.string.Select_Day)} $localizedOption",
             painter = painterResource(id = R.drawable.day)
         )
 
@@ -75,7 +85,7 @@ fun NotificationBody(notificationViewModel: NotificationViewModel) {
 
         CustomNotificationButton(
             onClick = { showTimePicker = true },
-            text = "Select Time: $timeText",
+            text = "${stringResource(R.string.Select_Time)} $timeText",
             painter = painterResource(id = R.drawable.schedule)
         )
 
@@ -120,9 +130,9 @@ fun NotificationBody(notificationViewModel: NotificationViewModel) {
                         desc = notificationMessage
                     )
                 )
-                Toast.makeText(context, "DONE ✔", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.DONE), Toast.LENGTH_SHORT).show()
             },
-            text = "Schedule Notification",
+            text = stringResource(R.string.Send_Notification),
             painter = painterResource(id = R.drawable.check)
         )
     }

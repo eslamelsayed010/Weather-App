@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">تطبيق الطقس</string>
+    <string name="app_name">الطقس</string>
 
     <!--home-->
     <string name="Next_five_Days">الأيام الخمسة القادمة</string>
@@ -49,4 +49,36 @@
     <string name="C_UNIT">°س</string>
     <string name="K_UNIT">°ك</string>
     <string name="F_UNIT">°ف</string>
+
+    <!-- Days of the week -->
+    <string name="sunday">الأحد</string>
+    <string name="monday">الاثنين</string>
+    <string name="tuesday">الثلاثاء</string>
+    <string name="wednesday">الأربعاء</string>
+    <string name="thursday">الخميس</string>
+    <string name="friday">الجمعة</string>
+    <string name="saturday">السبت</string>
+
+    <!--notification view-->
+    <string name="Notification_Title">عنوان الإشعار</string>
+    <string name="Check">تحقق من الطقس الآن 😶🌫</string>
+    <string name="metéo">Météo</string>
+    <string name="Notification_Message">رسالة الإشعار</string>
+    <string name="Select_Day">حدد اليوم:</string>
+    <string name="Select_d_day">حدد اليوم</string>
+    <string name="Select_Time">حدد الوقت:</string>
+    <string name="Select_d_Time">حدد الوقت</string>
+    <string name="AM">صباحًا</string>
+    <string name="PM">مساءً</string>
+    <string name="Hour">ساعة</string>
+    <string name="Minute">دقيقة</string>
+    <string name="Cancel">إلغاء</string>
+    <string name="OK">تمام</string>
+    <string name="DONE">حصل ✔</string>
+    <string name="Send_Notification">إرسال الإشعار</string>
+    <string name="Deleted">تم الحذف 🗑</string>
+    <string name="Confirm">تأكيد الحذف 🗑</string>
+    <string name="Confirm_delete">هل أنت متأكد أنك تريد حذف هذا الإشعار؟</string>
+    <string name="Delete">حذف</string>
+    <string name="Swipe">اسحب للحذف</string>
 </resources>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Weather App</string>
 
@@ -48,4 +49,36 @@
     <string name="C_UNIT">°C</string>
     <string name="K_UNIT">°K</string>
     <string name="F_UNIT">°F</string>
+
+    <!-- Days of the week -->
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+
+    <!--notification view-->
+    <string name="Notification_Title">Notification Title</string>
+    <string name="Check">Check the weather now 😶🌫</string>
+    <string name="metéo">Météo</string>
+    <string name="Notification_Message">Notification Message</string>
+    <string name="Select_Day">Select Day:</string>
+    <string name="Select_Time">Select Time:</string>
+    <string name="Select_d_Time">Select Time</string>
+    <string name="Select_d_day">Select Day</string>
+    <string name="AM">AM</string>
+    <string name="PM">PM</string>
+    <string name="Hour">Hour</string>
+    <string name="Minute">Minute</string>
+    <string name="Cancel">Cancel</string>
+    <string name="OK">OK</string>
+    <string name="DONE">DONE ✔</string>
+    <string name="Send_Notification">Send Notification</string>
+    <string name="Deleted">Deleted 🗑</string>
+    <string name="Confirm">Confirm Deletion 🗑</string>
+    <string name="Confirm_delete">Are you sure you want to delete this notification?</string>
+    <string name="Delete">Delete</string>
+    <string name="Swipe">Swipe to delete</string>
 </resources>

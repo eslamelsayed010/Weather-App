@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
@@ -42,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
@@ -53,6 +55,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.weatherapp.R
 import com.example.weatherapp.core.AppColors
 import com.example.weatherapp.core.CustomAnmiLoading
 import com.example.weatherapp.core.CustomError
@@ -93,7 +96,11 @@ fun CustomNotificationItem(notificationViewModel: NotificationViewModel) {
                         progress = progress,
                         onDelete = {
                             notificationViewModel.deleteNotification(element)
-                            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.Deleted),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     )
                 }
@@ -109,6 +116,7 @@ fun SwipeableNotificationItem(
     progress: Float,
     onDelete: () -> Unit
 ) {
+    val context = LocalContext.current
     var offsetX by remember { mutableFloatStateOf(0f) }
     val animatedOffsetX by animateFloatAsState(targetValue = offsetX)
     val density = LocalDensity.current
@@ -122,8 +130,8 @@ fun SwipeableNotificationItem(
                 showDeleteDialog = false
                 offsetX = 0f
             },
-            title = { Text("Confirm Deletion", fontWeight = FontWeight.Bold) },
-            text = { Text("Are you sure you want to delete this notification?") },
+            title = { Text(stringResource(R.string.Confirm), fontWeight = FontWeight.Bold) },
+            text = { Text(stringResource(R.string.Confirm_delete)) },
             confirmButton = {
                 Button(
                     onClick = {
@@ -133,7 +141,7 @@ fun SwipeableNotificationItem(
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                 ) {
-                    Text("Delete")
+                    Text(stringResource(R.string.Delete))
                 }
             },
             dismissButton = {
@@ -143,7 +151,7 @@ fun SwipeableNotificationItem(
                         offsetX = 0f
                     }
                 ) {
-                    Text("Cancel", color = AppColors.txtFormField)
+                    Text(stringResource(R.string.Cancel), color = AppColors.txtFormField)
                 }
             }
         )
@@ -156,7 +164,7 @@ fun SwipeableNotificationItem(
             modifier = Modifier
                 .border(2.dp, Color.Transparent, RoundedCornerShape(50.dp))
                 .fillMaxWidth()
-                .height(120.dp)
+                .height(90.dp)
                 .background(
                     Color.Red.copy(alpha = animatedOffsetX / deleteThreshold),
                     RoundedCornerShape(50.dp)
@@ -202,6 +210,13 @@ fun SwipeableNotificationItem(
                 Spacer(Modifier.height(5.dp))
                 Box(
                     modifier = Modifier
+                        .clickable {
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.Swipe),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                         .shadow(10.dp, RoundedCornerShape(50.dp))
                         .border(2.dp, Color.Transparent, RoundedCornerShape(8.dp))
                         .background(

@@ -36,9 +36,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.weatherapp.R
 import com.example.weatherapp.core.AppColors
 
 @SuppressLint("DefaultLocale")
@@ -81,7 +83,7 @@ fun TimePickerDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Select Time",
+                    text = stringResource(R.string.Select_d_Time),
                     style = MaterialTheme.typography.headlineSmall,
                     color = AppColors.txtFormField,
                     modifier = Modifier.padding(bottom = 16.dp)
@@ -110,7 +112,7 @@ fun TimePickerDialog(
                         modifier = Modifier.padding(start = 16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "AM",
+                        Text(text = stringResource(R.string.AM),
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = if (period.value == "AM") FontWeight.Bold else FontWeight.Normal,
                             color = if (period.value == "AM") AppColors.txtFormField else MaterialTheme.colorScheme.onSurfaceVariant,
@@ -121,7 +123,7 @@ fun TimePickerDialog(
                                 }
                                 .padding(vertical = 4.dp, horizontal = 8.dp))
 
-                        Text(text = "PM",
+                        Text(text = stringResource(R.string.PM),
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = if (period.value == "PM") FontWeight.Bold else FontWeight.Normal,
                             color = if (period.value == "PM") AppColors.txtFormField else MaterialTheme.colorScheme.onSurfaceVariant,
@@ -140,7 +142,7 @@ fun TimePickerDialog(
                         .padding(bottom = 16.dp)
                 ) {
                     Text(
-                        text = "Hour",
+                        text = stringResource(R.string.Hour),
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(bottom = 8.dp)
@@ -171,7 +173,7 @@ fun TimePickerDialog(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = h.toString(),
+                                    text = String.format("%02d", h),
                                     color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer
                                     else MaterialTheme.colorScheme.onSurface,
                                     style = MaterialTheme.typography.bodyLarge
@@ -187,7 +189,7 @@ fun TimePickerDialog(
                         .padding(bottom = 24.dp)
                 ) {
                     Text(
-                        text = "Minute",
+                        text = stringResource(R.string.Minute),
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(bottom = 8.dp)
@@ -219,7 +221,7 @@ fun TimePickerDialog(
                                 )
                             ) {
                                 Text(
-                                    text = min.toString(),
+                                    text = String.format("%02d", min),
                                     color = if (minute == min) MaterialTheme.colorScheme.onPrimaryContainer
                                     else MaterialTheme.colorScheme.onSurface
                                 )
@@ -234,7 +236,7 @@ fun TimePickerDialog(
                     TextButton(
                         onClick = onDismissRequest, modifier = Modifier.padding(end = 8.dp)
                     ) {
-                        Text("Cancel", color = AppColors.txtFormField)
+                        Text(stringResource(R.string.Cancel), color = AppColors.txtFormField)
                     }
 
                     Button(
@@ -242,7 +244,7 @@ fun TimePickerDialog(
                         onClick = {
                             onTimeSelected(hour, minute)
                         }) {
-                        Text("OK")
+                        Text(stringResource(R.string.OK))
                     }
                 }
             }
