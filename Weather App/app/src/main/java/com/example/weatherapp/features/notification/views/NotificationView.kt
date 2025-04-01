@@ -1,10 +1,12 @@
-package com.example.weatherapp.features.notification
+package com.example.weatherapp.features.notification.views
 
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -14,8 +16,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -23,12 +23,11 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.weatherapp.core.AppColors
-import com.example.weatherapp.features.notification.compose.NotificationBody
+import com.example.weatherapp.features.notification.viewmodel.NotificationViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
-@Preview(showSystemUi = true, device = Devices.PIXEL_7_PRO)
 @Composable
-fun NotificationView() {
+fun NotificationView(notificationViewModel: NotificationViewModel) {
     val scrollState = rememberScrollState()
     val composition by rememberLottieComposition(LottieCompositionSpec.Asset("notification.json"))
     val progress by animateLottieCompositionAsState(
@@ -49,6 +48,8 @@ fun NotificationView() {
             modifier = Modifier.size(200.dp),
             contentScale = ContentScale.FillBounds
         )
-        NotificationBody()
+        NotificationBody(notificationViewModel)
+        Spacer(Modifier.height(10.dp))
+        CustomNotificationItem(notificationViewModel)
     }
 }

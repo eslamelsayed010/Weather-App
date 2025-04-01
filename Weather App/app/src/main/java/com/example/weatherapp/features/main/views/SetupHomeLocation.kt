@@ -1,21 +1,27 @@
 package com.example.weatherapp.features.main.views
 
 import android.location.Location
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.MainActivity
-import com.example.weatherapp.features.home.repo.WeatherRepo
+import com.example.weatherapp.core.CustomAnmiLoading
+import com.example.weatherapp.features.home.model.WeatherRepo
 import com.example.weatherapp.features.home.viewmodel.HomeFactory
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.main.viewmodel.LocationViewModel
+import com.example.weatherapp.features.notification.viewmodel.NotificationViewModel
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
 import com.example.weatherapp.network.RetrofitHelper
 import com.example.weatherapp.network.WeatherRemoteDataSource
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SetupHomeLocation(
     settingsViewModel: SettingsViewModel,
+    notificationViewModel: NotificationViewModel,
     location: Location,
     locationViewModel: LocationViewModel,
     requiredActivity: MainActivity,
@@ -40,16 +46,23 @@ fun SetupHomeLocation(
             Pair(0.0, 0.0)
         }
     }
-    val homeFactory = HomeFactory(
-        WeatherRepo.getInstance(WeatherRemoteDataSource(RetrofitHelper))
-    )
-    val weatherViewModel =
-        ViewModelProvider(requiredActivity, homeFactory)[HomeViewModel::class.java]
-    weatherViewModel.initWeatherData(finalLatitude, finalLongitude, unit, lang)
+    if (finalLatitude != 0.0 && finalLongitude != 0.0) {
+        val homeFactory = HomeFactory(
+            WeatherRepo.getInstance(WeatherRemoteDataSource(RetrofitHelper)),
+            finalLatitude,
+            finalLongitude,
+            unit,
+            lang
+        )
+        val weatherViewModel =
+            ViewModelProvider(requiredActivity, homeFactory)[HomeViewModel::class.java]
 
-    MainView(
-        weatherViewModel,
-        settingsViewModel,
-        locationViewModel
-    )
+        MainView(
+            weatherViewModel,
+            settingsViewModel,
+            locationViewModel,
+            notificationViewModel
+        )
+    } else
+        CustomAnmiLoading()
 }

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.R
 import com.example.weatherapp.core.AppConst
-import com.example.weatherapp.core.models.WeatherModel
+import com.example.weatherapp.features.home.model.WeatherModel
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.skydoves.landscapist.glide.GlideImage
 

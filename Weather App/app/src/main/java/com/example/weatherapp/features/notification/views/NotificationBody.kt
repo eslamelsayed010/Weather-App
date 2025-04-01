@@ -1,8 +1,8 @@
-package com.example.weatherapp.features.notification.compose
+package com.example.weatherapp.features.notification.views
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,29 +22,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.workDataOf
 import com.example.weatherapp.R
-import com.example.weatherapp.core.NotificationWorker
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.ZoneId
-import java.util.concurrent.TimeUnit
+import com.example.weatherapp.features.notification.model.NotificationModel
+import com.example.weatherapp.features.notification.viewmodel.NotificationViewModel
 
 @SuppressLint("DefaultLocale")
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun NotificationBody(
-) {
+fun NotificationBody(notificationViewModel: NotificationViewModel) {
     val context = LocalContext.current
 
     var selectedHour by remember { mutableIntStateOf(12) }
     var selectedMinute by remember { mutableIntStateOf(0) }
+    var selectedDay by remember { mutableIntStateOf(0) } // 0 = Sunday
     var notificationTitle by remember { mutableStateOf("My Notification") }
     var notificationMessage by remember { mutableStateOf("This is a scheduled notification") }
     var showTimePicker by remember { mutableStateOf(false) }
+    var showDayPicker by remember { mutableStateOf(false) }
+
+    val days = listOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+    val dayText = days[selectedDay]
+    val timeText = String.format("%02d:%02d", selectedHour, selectedMinute)
+    val dateText = "$dayText, $timeText"
+
     Column(
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -62,10 +62,20 @@ fun NotificationBody(
             label = "Notification Message",
             imageVector = Icons.Default.Edit
         )
+
         Spacer(Modifier.height(30.dp))
+
+        CustomNotificationButton(
+            onClick = { showDayPicker = true },
+            text = "Select Day: $dayText",
+            painter = painterResource(id = R.drawable.day)
+        )
+
+        Spacer(Modifier.height(10.dp))
+
         CustomNotificationButton(
             onClick = { showTimePicker = true },
-            text = "Select Time: ${String.format("%02d:%02d", selectedHour, selectedMinute)}",
+            text = "Select Time: $timeText",
             painter = painterResource(id = R.drawable.schedule)
         )
 
@@ -82,47 +92,38 @@ fun NotificationBody(
             )
         }
 
+        if (showDayPicker) {
+            DayPickerDialog(
+                onDismissRequest = { showDayPicker = false },
+                onDaySelected = { day ->
+                    selectedDay = day
+                    showDayPicker = false
+                },
+                selectedDay = selectedDay
+            )
+        }
+
         CustomNotificationButton(
             onClick = {
-                scheduleNotification(
-                    context, selectedHour, selectedMinute, notificationTitle, notificationMessage
+                notificationViewModel.scheduleNotification(
+                    context,
+                    selectedDay,
+                    selectedHour,
+                    selectedMinute,
+                    notificationTitle,
+                    notificationMessage
                 )
-            }, text = "Schedule Notification", painter = painterResource(id = R.drawable.check)
+                notificationViewModel.addNotification(
+                    NotificationModel(
+                        date = dateText,
+                        message = notificationTitle,
+                        desc = notificationMessage
+                    )
+                )
+                Toast.makeText(context, "DONE ✔", Toast.LENGTH_SHORT).show()
+            },
+            text = "Schedule Notification",
+            painter = painterResource(id = R.drawable.check)
         )
     }
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-fun scheduleNotification(context: Context, hour: Int, minute: Int, title: String, message: String) {
-    // Calculate delay until the specified time
-    val currentTime = LocalDateTime.now()
-    var scheduledTime = LocalDateTime.of(
-        currentTime.toLocalDate(), LocalTime.of(hour, minute)
-    )
-
-    // If the time is already passed for today, schedule for tomorrow
-    if (scheduledTime.isBefore(currentTime)) {
-        scheduledTime = scheduledTime.plusDays(1)
-    }
-
-    // Calculate the delay in milliseconds
-    val delayInMillis = scheduledTime.atZone(ZoneId.systemDefault()).toInstant()
-        .toEpochMilli() - currentTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-
-    // Create input data for the worker
-    val inputData = workDataOf(
-        "NOTIFICATION_TITLE" to title, "NOTIFICATION_MESSAGE" to message
-    )
-
-    // Create a unique work request
-    val notificationRequest = OneTimeWorkRequestBuilder<NotificationWorker>().setInitialDelay(
-        delayInMillis, TimeUnit.MILLISECONDS
-    ).setInputData(inputData).build()
-
-    // Enqueue the work
-    WorkManager.getInstance(context).enqueueUniqueWork(
-        "scheduled_notification_${System.currentTimeMillis()}",
-        ExistingWorkPolicy.REPLACE,
-        notificationRequest
-    )
 }

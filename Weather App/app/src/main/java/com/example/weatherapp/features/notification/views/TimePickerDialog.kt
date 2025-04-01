@@ -1,4 +1,4 @@
-package com.example.weatherapp.features.notification.compose
+package com.example.weatherapp.features.notification.views
 
 import android.annotation.SuppressLint
 import android.util.Log

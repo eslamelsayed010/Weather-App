@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.example.weatherapp.R
 import com.example.weatherapp.core.AppConst
 import com.example.weatherapp.core.CustomForecastDivider
-import com.example.weatherapp.core.models.ThreeHourForecast
+import com.example.weatherapp.features.home.model.ThreeHourForecast
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.skydoves.landscapist.glide.GlideImage
 

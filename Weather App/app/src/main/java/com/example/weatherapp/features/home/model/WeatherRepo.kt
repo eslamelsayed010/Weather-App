@@ -1,7 +1,5 @@
-package com.example.weatherapp.features.home.repo
+package com.example.weatherapp.features.home.model
 
-import com.example.weatherapp.core.models.ForecastModel
-import com.example.weatherapp.core.models.WeatherModel
 import com.example.weatherapp.network.WeatherRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 

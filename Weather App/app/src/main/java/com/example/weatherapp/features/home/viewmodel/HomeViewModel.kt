@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.core.AppConst
-import com.example.weatherapp.core.Response
-import com.example.weatherapp.core.models.DailyForecast
-import com.example.weatherapp.core.models.ThreeHourForecast
-import com.example.weatherapp.features.home.repo.WeatherRepo
+import com.example.weatherapp.features.home.model.HomeResponse
+import com.example.weatherapp.features.home.model.DailyForecast
+import com.example.weatherapp.features.home.model.ThreeHourForecast
+import com.example.weatherapp.features.home.model.WeatherRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,14 +27,15 @@ import java.util.Locale
 
 class HomeViewModel(
     private val repo: WeatherRepo,
+    var lat: Double,
+    var lon: Double,
+    var unit: String,
+    var lang: String,
 ) : ViewModel() {
-    private var mutList = MutableStateFlow<Response>(Response.Loading)
+    private var mutList = MutableStateFlow<HomeResponse>(HomeResponse.LoadingHome)
     val weatherModelResponse = mutList.asStateFlow()
 
-    var lat: Double = 0.0
-    var lon: Double = 0.0
-    var unit: String = "metric"
-    var lang: String = "en"
+
 
     var current3HourForecast: MutableLiveData<List<ThreeHourForecast>> = MutableLiveData()
     var fiveDayForecast: MutableLiveData<List<DailyForecast>> = MutableLiveData()
@@ -42,16 +43,7 @@ class HomeViewModel(
     private val _toastEvent = MutableSharedFlow<String>()
     val toastEvent = _toastEvent.asSharedFlow()
 
-    fun initWeatherData(
-        newLat: Double,
-        newLon: Double,
-        newUnit: String = "metric",
-        newLang: String = "en"
-    ) {
-        lat = newLat
-        lon = newLon
-        unit = newUnit
-        lang = newLang
+    init {
         refreshWeatherData()
     }
 
@@ -72,7 +64,7 @@ class HomeViewModel(
 
             } catch (e: Exception) {
                 Log.e("TAG", e.toString())
-                mutList.value = Response.Failure(e)
+                mutList.value = HomeResponse.FailureHome(e)
                 _toastEvent.emit("Error From API: ${e.message}")
                 Log.i("TAG", "Error From API: ${e.message}")
             }
@@ -85,17 +77,17 @@ class HomeViewModel(
                 val forecasts = repo.getCurrentWeather(lat, lon, unit, lang)
                 forecasts
                     .catch { ex ->
-                        mutList.value = Response.Failure(ex)
+                        mutList.value = HomeResponse.FailureHome(ex)
                         _toastEvent.emit("Error From Response: ${ex.message}")
                         Log.i("TAG", "Error From Response : ${ex.message}")
                     }
                     .collect {
-                        mutList.value = Response.Success(it)
+                        mutList.value = HomeResponse.SuccessHome(it)
                         Log.i("TAG", mutList.value.toString())
                     }
             } catch (e: Exception) {
                 Log.e("TAG", e.toString())
-                mutList.value = Response.Failure(e)
+                mutList.value = HomeResponse.FailureHome(e)
                 _toastEvent.emit("Error From API: ${e.message}")
                 Log.i("TAG", "Error From API: ${e.message}")
             }
@@ -230,9 +222,13 @@ class HomeViewModel(
 @Suppress("UNCHECKED_CAST")
 class HomeFactory(
     private val repo: WeatherRepo,
+    var lat: Double,
+    var lon: Double,
+    var unit: String,
+    var lang: String,
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return HomeViewModel(repo) as T
+        return HomeViewModel(repo, lat, lon, unit, lang) as T
     }
 }

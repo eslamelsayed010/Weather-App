@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.example.weatherapp.core.CustomAnmiLoading
 import com.example.weatherapp.core.CustomError
 import com.example.weatherapp.core.LottieBackgroundBox
-import com.example.weatherapp.core.Response
+import com.example.weatherapp.features.home.model.HomeResponse
 import com.example.weatherapp.core.getAnmiBK
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 
@@ -32,7 +32,7 @@ fun HomeView(viewModel: HomeViewModel) {
     val dataState by viewModel.weatherModelResponse.collectAsState()
 
     when {
-        dataState is Response.Loading
+        dataState is HomeResponse.LoadingHome
                 && current3HourForecast.isEmpty()
                 && fiveDayForecast.isEmpty()
                 && viewModel.lat != 0.0
@@ -41,12 +41,12 @@ fun HomeView(viewModel: HomeViewModel) {
             CustomAnmiLoading()
         }
 
-        dataState is Response.Failure -> {
-            CustomError(viewModel)
+        dataState is HomeResponse.FailureHome -> {
+            CustomError(viewModel.toastEvent)
         }
 
-        dataState is Response.Success -> {
-            val weatherModel = (dataState as Response.Success).data
+        dataState is HomeResponse.SuccessHome -> {
+            val weatherModel = (dataState as HomeResponse.SuccessHome).data
             val anmiBK = getAnmiBK(weatherModel.weather[0].description)
             LottieBackgroundBox(anmiBK) {
                 Column(

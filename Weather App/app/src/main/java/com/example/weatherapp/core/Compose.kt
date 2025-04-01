@@ -21,8 +21,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,7 +43,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.weatherapp.R
-import com.example.weatherapp.features.home.viewmodel.HomeViewModel
+import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
 fun CustomAnmiLoading() {
@@ -65,8 +67,16 @@ fun CustomAnmiLoading() {
 }
 
 @Composable
-fun CustomError(viewModel: HomeViewModel) {
+fun CustomError(toastEvent: SharedFlow<String>) {
     val context = LocalContext.current
+    val errorMessage = remember { mutableStateOf("") }
+
+    LaunchedEffect(key1 = true) {
+        toastEvent.collect { message ->
+            errorMessage.value = message
+        }
+    }
+
     Column(
         Modifier
             .fillMaxSize()
@@ -75,11 +85,7 @@ fun CustomError(viewModel: HomeViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            "${context.getString(R.string.There_is_an_error)} ${
-                viewModel.toastEvent.collectAsState(
-                    String()
-                ).value
-            }",
+            "${context.getString(R.string.There_is_an_error)} $errorMessage",
             color = Color.Red,
             fontSize = 30.sp
         )

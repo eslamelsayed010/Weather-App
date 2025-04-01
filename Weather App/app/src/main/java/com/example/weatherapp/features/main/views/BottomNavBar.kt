@@ -19,7 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.weatherapp.R
 import com.example.weatherapp.core.AppColors
 import com.example.weatherapp.core.NavViewRoute
-import com.example.weatherapp.core.Response
+import com.example.weatherapp.features.home.model.HomeResponse
 import com.example.weatherapp.core.getNavBK
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.main.model.BottomNavItem
@@ -33,8 +33,8 @@ fun BottomNavBar(navController: NavHostController, viewModel: HomeViewModel) {
     val currentRoute = navBackStackEntry?.destination?.route
 
     var baseBackgroundColor = Color.Gray
-    if (dataState is Response.Success) {
-        val weatherModel = (dataState as Response.Success).data
+    if (dataState is HomeResponse.SuccessHome) {
+        val weatherModel = (dataState as HomeResponse.SuccessHome).data
         baseBackgroundColor = getNavBK(weatherModel.weather[0].description)
     }
 

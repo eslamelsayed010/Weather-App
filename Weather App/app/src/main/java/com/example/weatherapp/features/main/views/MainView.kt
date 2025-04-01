@@ -14,6 +14,7 @@ import com.example.weatherapp.core.NavViewRoute
 import com.example.weatherapp.core.NavigationGraph
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.main.viewmodel.LocationViewModel
+import com.example.weatherapp.features.notification.viewmodel.NotificationViewModel
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -21,7 +22,8 @@ import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
 fun MainView(
     viewModel: HomeViewModel,
     settingsViewModel: SettingsViewModel,
-    locationViewModel: LocationViewModel
+    locationViewModel: LocationViewModel,
+    notificationViewModel: NotificationViewModel
 ) {
     val navController = rememberNavController()
 
@@ -42,7 +44,8 @@ fun MainView(
                 navController,
                 viewModel,
                 settingsViewModel,
-                locationViewModel
+                locationViewModel,
+                notificationViewModel
             )
         }
     }

@@ -10,7 +10,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.example.weatherapp.core.models.WeatherModel
+import com.example.weatherapp.features.home.model.WeatherModel
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import kotlinx.coroutines.delay
 

@@ -9,7 +9,8 @@ import androidx.navigation.compose.composable
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.home.views.HomeView
 import com.example.weatherapp.features.main.viewmodel.LocationViewModel
-import com.example.weatherapp.features.notification.NotificationView
+import com.example.weatherapp.features.notification.viewmodel.NotificationViewModel
+import com.example.weatherapp.features.notification.views.NotificationView
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
 import com.example.weatherapp.features.settings.views.MapView
 import com.example.weatherapp.features.settings.views.SettingView
@@ -20,7 +21,8 @@ fun NavigationGraph(
     navController: NavHostController,
     viewModel: HomeViewModel,
     settingsViewModel: SettingsViewModel,
-    locationViewModel: LocationViewModel
+    locationViewModel: LocationViewModel,
+    notificationViewModel: NotificationViewModel
 ) {
     NavHost(navController, startDestination = NavViewRoute.HOME) {
         composable(NavViewRoute.HOME) { HomeView(viewModel) }
@@ -33,6 +35,6 @@ fun NavigationGraph(
 
         composable(NavViewRoute.MAP) { MapView(navController, viewModel, settingsViewModel) }
 
-        composable(NavViewRoute.NOTIFICATION) { NotificationView() }
+        composable(NavViewRoute.NOTIFICATION) { NotificationView(notificationViewModel) }
     }
 }

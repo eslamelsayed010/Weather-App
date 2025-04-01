@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.weatherapp.R
 import com.example.weatherapp.core.CircularAvatar
-import com.example.weatherapp.core.Response
+import com.example.weatherapp.features.home.model.HomeResponse
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
 import com.google.android.gms.maps.model.LatLng
@@ -43,8 +43,8 @@ fun MapView(
 
     val selectedPosition = remember {
         mutableStateOf(
-            if (dataState is Response.Success) {
-                val weatherModel = (dataState as Response.Success).data
+            if (dataState is HomeResponse.SuccessHome) {
+                val weatherModel = (dataState as HomeResponse.SuccessHome).data
                 LatLng(weatherModel.coord.lat, weatherModel.coord.lon)
             } else
                 LatLng(0.0, 0.0)

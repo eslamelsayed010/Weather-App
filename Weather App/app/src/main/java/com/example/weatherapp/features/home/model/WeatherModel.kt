@@ -1,4 +1,4 @@
-package com.example.weatherapp.core.models
+package com.example.weatherapp.features.home.model
 
 data class WeatherModel(
     val coord: Coord,

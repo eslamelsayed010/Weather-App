@@ -1,4 +1,4 @@
-package com.example.weatherapp.features.notification.compose
+package com.example.weatherapp.features.notification.views
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row

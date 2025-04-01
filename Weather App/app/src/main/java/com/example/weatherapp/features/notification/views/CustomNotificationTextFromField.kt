@@ -1,4 +1,4 @@
-package com.example.weatherapp.features.notification.compose
+package com.example.weatherapp.features.notification.views
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

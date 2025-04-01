@@ -1,7 +1,7 @@
 package com.example.weatherapp.network
 
-import com.example.weatherapp.core.models.ForecastModel
-import com.example.weatherapp.core.models.WeatherModel
+import com.example.weatherapp.features.home.model.ForecastModel
+import com.example.weatherapp.features.home.model.WeatherModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
