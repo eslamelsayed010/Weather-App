@@ -63,32 +63,35 @@ fun FavoriteView(
 
             is FavoriteResponse.SuccessFavorite -> {
                 val data = (dataState as FavoriteResponse.SuccessFavorite).data
-                LazyColumn(
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(20.dp),
-                    modifier = Modifier
-                        .padding(innerPadding)
-                        .background(AppColors.BackgroundColor)
-                        .fillMaxSize()
-                ) {
-                    items(data.size) { index ->
-                        FavoriteItem(
-                            favoriteViewModel,
-                            data[index],
-                            navController,
-                            unit,
-                            lang,
-                            onDelete = {
-                                favoriteViewModel.deleteFromFavorite(data[index])
-                                Toast.makeText(
-                                    context,
-                                    context.getString(R.string.Deleted),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        )
+                if (data.isNullOrEmpty())
+                    CustomEmptyFavList()
+                else
+                    LazyColumn(
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(20.dp),
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .background(AppColors.BackgroundColor)
+                            .fillMaxSize()
+                    ) {
+                        items(data.size) { index ->
+                            FavoriteItem(
+                                favoriteViewModel,
+                                data[index],
+                                navController,
+                                unit,
+                                lang,
+                                onDelete = {
+                                    favoriteViewModel.deleteFromFavorite(data[index])
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.Deleted),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            )
+                        }
                     }
-                }
             }
 
             else -> TODO()
