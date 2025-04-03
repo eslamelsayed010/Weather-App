@@ -8,6 +8,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.MainActivity
 import com.example.weatherapp.core.CustomAnmiLoading
+import com.example.weatherapp.features.favorite.viewmodel.FavoriteViewModel
 import com.example.weatherapp.features.home.model.WeatherRepo
 import com.example.weatherapp.features.home.viewmodel.HomeFactory
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
@@ -22,6 +23,7 @@ import com.example.weatherapp.network.WeatherRemoteDataSource
 fun SetupHomeLocation(
     settingsViewModel: SettingsViewModel,
     notificationViewModel: NotificationViewModel,
+    favoriteViewModel: FavoriteViewModel,
     location: Location,
     locationViewModel: LocationViewModel,
     requiredActivity: MainActivity,
@@ -61,7 +63,8 @@ fun SetupHomeLocation(
             weatherViewModel,
             settingsViewModel,
             locationViewModel,
-            notificationViewModel
+            notificationViewModel,
+            favoriteViewModel
         )
     } else
         CustomAnmiLoading()

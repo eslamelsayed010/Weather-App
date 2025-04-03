@@ -4,11 +4,18 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.weatherapp.features.favorite.model.FavoriteModel
 import com.example.weatherapp.features.notification.model.NotificationModel
 
-@Database(entities = [NotificationModel::class], version = 2)
+@Database(
+    entities = [
+        NotificationModel::class,
+        FavoriteModel::class
+    ],
+    version = 3
+)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun notificationDao(): NotificationDao
+    abstract fun dao(): Dao
 
     companion object {
         @Volatile
@@ -20,7 +27,7 @@ abstract class AppDatabase : RoomDatabase() {
                     .databaseBuilder(
                         context.applicationContext,
                         AppDatabase::class.java,
-                        "notifications_database"
+                        "weather_database"
                     )
                     .build()
 

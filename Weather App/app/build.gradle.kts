@@ -114,4 +114,7 @@ dependencies {
     // Time picker
     implementation("com.maxkeppeler.sheets-compose-dialogs:core:1.2.0")
     implementation("com.maxkeppeler.sheets-compose-dialogs:clock:1.2.0")
+
+    //material icons
+    implementation("androidx.compose.material:material-icons-extended:1.5.4")
 }

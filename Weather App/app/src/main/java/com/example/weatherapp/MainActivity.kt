@@ -16,6 +16,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.core.AppColors
 import com.example.weatherapp.core.LanguageChangeHelper
+import com.example.weatherapp.features.favorite.model.FavoriteRepo
+import com.example.weatherapp.features.favorite.viewmodel.FavoriteViewModel
+import com.example.weatherapp.features.favorite.viewmodel.FavoriteViewModelFactory
 import com.example.weatherapp.features.main.viewmodel.LocationViewModel
 import com.example.weatherapp.features.main.views.SetupHomeLocation
 import com.example.weatherapp.features.notification.model.NotificationRepo
@@ -66,11 +69,24 @@ class MainActivity : ComponentActivity() {
                     LocalDataSource(
                         AppDatabase
                             .getInstance(this)
-                            .notificationDao()
+                            .dao()
                     )
                 )
             )
         )[NotificationViewModel::class.java]
+
+        val favoriteViewModel = ViewModelProvider(
+            this,
+            FavoriteViewModelFactory(
+                FavoriteRepo.getInstance(
+                    LocalDataSource(
+                        AppDatabase
+                            .getInstance(this)
+                            .dao()
+                    )
+                )
+            )
+        )[FavoriteViewModel::class.java]
 
         val languageHelper = LanguageChangeHelper()
         val savedLanguage = languageHelper.loadLanguagePreference(this)
@@ -83,6 +99,7 @@ class MainActivity : ComponentActivity() {
             SetupHomeLocation(
                 settingsViewModel,
                 notificationViewModel,
+                favoriteViewModel,
                 location,
                 locationViewModel,
                 this,

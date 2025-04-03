@@ -77,8 +77,12 @@
     <string name="DONE">حصل ✔</string>
     <string name="Send_Notification">إرسال الإشعار</string>
     <string name="Deleted">تم الحذف 🗑</string>
-    <string name="Confirm">تأكيد الحذف 🗑</string>
-    <string name="Confirm_delete">هل أنت متأكد أنك تريد حذف هذا الإشعار؟</string>
+    <string name="Confirm">تأكيد الحذف</string>
+    <string name="Confirm_delete">هل أنت متأكد أنك تريد حذف هذا العنصر؟</string>
     <string name="Delete">حذف</string>
     <string name="Swipe">اسحب للحذف</string>
+
+    <!--favorite view-->
+    <string name="add_to_fav">أضف إلى المفضلة</string>
+    <string name="select_location">حدد الموقع</string>
 </resources>

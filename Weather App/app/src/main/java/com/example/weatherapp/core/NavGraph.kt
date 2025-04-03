@@ -6,6 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.weatherapp.features.favorite.viewmodel.FavoriteViewModel
+import com.example.weatherapp.features.favorite.views.FavoriteMapView
+import com.example.weatherapp.features.favorite.views.FavoriteView
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.home.views.HomeView
 import com.example.weatherapp.features.main.viewmodel.LocationViewModel
@@ -19,22 +22,30 @@ import com.example.weatherapp.features.settings.views.SettingView
 @Composable
 fun NavigationGraph(
     navController: NavHostController,
-    viewModel: HomeViewModel,
+    homeViewModel: HomeViewModel,
     settingsViewModel: SettingsViewModel,
     locationViewModel: LocationViewModel,
-    notificationViewModel: NotificationViewModel
+    notificationViewModel: NotificationViewModel,
+    favoriteViewModel: FavoriteViewModel
 ) {
     NavHost(navController, startDestination = NavViewRoute.HOME) {
-        composable(NavViewRoute.HOME) { HomeView(viewModel) }
-
+        composable(NavViewRoute.HOME) { HomeView(homeViewModel) }
         composable(NavViewRoute.SETTINGS) {
             SettingView(
-                navController, settingsViewModel, viewModel, locationViewModel
+                navController, settingsViewModel, homeViewModel, locationViewModel
             )
         }
-
-        composable(NavViewRoute.MAP) { MapView(navController, viewModel, settingsViewModel) }
-
+        composable(NavViewRoute.MAP) { MapView(navController, homeViewModel, settingsViewModel) }
         composable(NavViewRoute.NOTIFICATION) { NotificationView(notificationViewModel) }
+
+        composable(NavViewRoute.FAVORITE) { FavoriteView(navController, favoriteViewModel) }
+        composable(NavViewRoute.FAV_MAP) {
+            FavoriteMapView(
+                navController,
+                homeViewModel,
+                favoriteViewModel
+            )
+        }
+        composable(NavViewRoute.SELECTED_FAV) { HomeView(homeViewModel) }
     }
 }

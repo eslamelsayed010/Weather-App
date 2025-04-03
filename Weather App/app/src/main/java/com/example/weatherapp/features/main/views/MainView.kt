@@ -12,6 +12,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.weatherapp.core.NavViewRoute
 import com.example.weatherapp.core.NavigationGraph
+import com.example.weatherapp.features.favorite.viewmodel.FavoriteViewModel
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.main.viewmodel.LocationViewModel
 import com.example.weatherapp.features.notification.viewmodel.NotificationViewModel
@@ -23,14 +24,15 @@ fun MainView(
     viewModel: HomeViewModel,
     settingsViewModel: SettingsViewModel,
     locationViewModel: LocationViewModel,
-    notificationViewModel: NotificationViewModel
+    notificationViewModel: NotificationViewModel,
+    favoriteViewModel: FavoriteViewModel
 ) {
     val navController = rememberNavController()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val showBottomBar = currentRoute != NavViewRoute.MAP
+    val showBottomBar = currentRoute != NavViewRoute.MAP && currentRoute != NavViewRoute.FAV_MAP
 
     Scaffold(
         bottomBar = {
@@ -45,7 +47,8 @@ fun MainView(
                 viewModel,
                 settingsViewModel,
                 locationViewModel,
-                notificationViewModel
+                notificationViewModel,
+                favoriteViewModel
             )
         }
     }
