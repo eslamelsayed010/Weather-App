@@ -1,4 +1,4 @@
-package com.example.weatherapp.network
+package com.example.weatherapp.data.network
 
 import com.example.weatherapp.core.AppConst
 import com.example.weatherapp.features.home.model.ForecastModel

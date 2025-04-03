@@ -1,6 +1,6 @@
 package com.example.weatherapp.features.notification.model
 
-import com.example.weatherapp.local.LocalDataSource
+import com.example.weatherapp.data.local.LocalDataSource
 import kotlinx.coroutines.flow.Flow
 
 class NotificationRepo private constructor(

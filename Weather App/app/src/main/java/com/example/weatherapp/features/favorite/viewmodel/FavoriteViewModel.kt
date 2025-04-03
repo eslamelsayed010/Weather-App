@@ -2,7 +2,6 @@ package com.example.weatherapp.features.favorite.viewmodel
 
 import android.content.Context
 import android.location.Geocoder
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +21,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import timber.log.Timber
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -69,10 +69,10 @@ class FavoriteViewModel(private val repo: FavoriteRepo) : ViewModel() {
                 fiveDayForecast.postValue(getFiveDayForecast(forecastData))
 
             } catch (e: Exception) {
-                Log.e("TAG", e.toString())
+                Timber.tag("TAG").e(e.toString())
                 mutList.value = FavoriteResponse.FailureSelectedFavorite(e)
                 _toastEvent.emit("Error From API: ${e.message}")
-                Log.i("TAG", "Error From API: ${e.message}")
+                Timber.tag("TAG").i("Error From API: ${e.message}")
             }
         }
     }
@@ -83,22 +83,22 @@ class FavoriteViewModel(private val repo: FavoriteRepo) : ViewModel() {
     ) {
         viewModelScope.launch {
             try {
-                val forecasts = repo.getCurrentWeather(lat, lon, unit, lang)
-                forecasts
+                val response = repo.getCurrentWeather(lat, lon, unit, lang)
+                response
                     .catch { ex ->
                         mutList.value = FavoriteResponse.FailureSelectedFavorite(ex)
                         _toastEvent.emit("Error From Response: ${ex.message}")
-                        Log.i("TAG", "Error From Response : ${ex.message}")
+                        Timber.tag("TAG").i("Error From Response : ${ex.message}")
                     }
                     .collect {
                         mutList.value = FavoriteResponse.SuccessSelectedFavorite(it)
-                        Log.i("TAG", mutList.value.toString())
+                        Timber.tag("TAG").i(mutList.value.toString())
                     }
             } catch (e: Exception) {
-                Log.e("TAG", e.toString())
+                Timber.tag("TAG").e(e.toString())
                 mutList.value = FavoriteResponse.FailureSelectedFavorite(e)
                 _toastEvent.emit("Error From API: ${e.message}")
-                Log.i("TAG", "Error From API: ${e.message}")
+                Timber.tag("TAG").i("Error From API: ${e.message}")
             }
         }
     }
@@ -118,7 +118,7 @@ class FavoriteViewModel(private val repo: FavoriteRepo) : ViewModel() {
             if (date == today) {
                 val time = SimpleDateFormat("HH a", Locale.getDefault()).format(Date(dt))
                 val main = forecast.getJSONObject("main")
-                Log.d("WeatherDebug", "Raw temperature from API: ${main.getDouble("temp")}")
+                Timber.tag("WeatherDebug").d("Raw temperature from API: ${main.getDouble("temp")}")
                 val weather = forecast.getJSONArray("weather").getJSONObject(0)
 
                 result.add(
@@ -230,7 +230,6 @@ class FavoriteViewModel(private val repo: FavoriteRepo) : ViewModel() {
         }
     }
 
-
     fun insertToFavorite(favoriteModel: FavoriteModel) {
         viewModelScope.launch {
             try {
@@ -238,7 +237,7 @@ class FavoriteViewModel(private val repo: FavoriteRepo) : ViewModel() {
                     repo.insertToFavorite(favoriteModel)
                 }
             } catch (e: Exception) {
-                Log.e("TAG", e.toString())
+                Timber.tag("TAG").e(e.toString())
             }
         }
     }
@@ -250,7 +249,7 @@ class FavoriteViewModel(private val repo: FavoriteRepo) : ViewModel() {
                     repo.deleteFromFavorite(favoriteModel)
                 }
             } catch (e: Exception) {
-                Log.e("TAG", e.toString())
+                Timber.tag("TAG").e(e.toString())
             }
         }
     }
@@ -258,8 +257,8 @@ class FavoriteViewModel(private val repo: FavoriteRepo) : ViewModel() {
     fun getLocalData() {
         viewModelScope.launch {
             try {
-                val products = repo.getFavorites()
-                products
+                val listFlow = repo.getFavorites()
+                listFlow
                     .catch { ex ->
                         mutListLocal.value = FavoriteResponse.FailureFavorite(ex)
                         _toastEvent.emit("Error From DAO: ${ex.message}")
@@ -269,7 +268,7 @@ class FavoriteViewModel(private val repo: FavoriteRepo) : ViewModel() {
                         mutListLocal.value = FavoriteResponse.SuccessFavorite(it)
                     }
             } catch (e: Exception) {
-                Log.e("TAG", e.toString())
+                Timber.tag("TAG").e(e.toString())
                 mutListLocal.value = FavoriteResponse.FailureFavorite(e)
                 _toastEvent.emit("Error DAO: ${e.message}")
             }

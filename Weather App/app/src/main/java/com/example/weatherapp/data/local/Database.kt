@@ -1,4 +1,4 @@
-package com.example.weatherapp.local
+package com.example.weatherapp.data.local
 
 import android.content.Context
 import androidx.room.Database

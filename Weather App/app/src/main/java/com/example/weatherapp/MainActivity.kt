@@ -6,7 +6,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -27,10 +26,11 @@ import com.example.weatherapp.features.notification.viewmodel.NotificationViewMo
 import com.example.weatherapp.features.settings.repo.UserPreferencesRepository
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModelFactory
-import com.example.weatherapp.local.AppDatabase
-import com.example.weatherapp.local.LocalDataSource
-import com.example.weatherapp.network.RemoteDataSource
-import com.example.weatherapp.network.RetrofitHelper
+import com.example.weatherapp.data.local.AppDatabase
+import com.example.weatherapp.data.local.LocalDataSource
+import com.example.weatherapp.data.network.RemoteDataSource
+import com.example.weatherapp.data.network.RetrofitHelper
+import timber.log.Timber
 
 @Suppress("DEPRECATION")
 class MainActivity : ComponentActivity() {
@@ -41,9 +41,9 @@ class MainActivity : ComponentActivity() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
-            Log.i("isGranted", "if : ")
+            Timber.tag("isGranted").i("if : ")
         } else {
-            Log.i("isGranted", "else: ")
+            Timber.tag("isGranted").i("else: ")
         }
     }
 

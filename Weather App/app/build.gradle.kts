@@ -117,4 +117,47 @@ dependencies {
 
     //material icons
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
+
+    // Dependencies for local unit tests
+    testImplementation("junit:junit:+")
+    testImplementation("org.hamcrest:hamcrest-all:+")
+    testImplementation("androidx.arch.core:core-testing:+")
+    testImplementation("org.robolectric:robolectric:+")
+
+    // AndroidX Test - JVM testing
+    testImplementation("androidx.test:core-ktx:+")
+    //testImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
+
+    // AndroidX Test - Instrumented testing
+    androidTestImplementation("androidx.test:core:+")
+    androidTestImplementation("androidx.test.espresso:espresso-core:+")
+
+    //Timber
+    implementation("com.jakewharton.timber:timber:5.0.1")
+
+    // hamcrest
+    testImplementation("org.hamcrest:hamcrest:2.2")
+    testImplementation("org.hamcrest:hamcrest-library:2.2")
+    androidTestImplementation("org.hamcrest:hamcrest:2.2")
+    androidTestImplementation("org.hamcrest:hamcrest-library:2.2")
+
+
+    // AndroidX and Robolectric
+    testImplementation("androidx.test.ext:junit-ktx:+")
+    testImplementation("androidx.test:core-ktx:+")
+    testImplementation("org.robolectric:robolectric:4.11")
+
+    // InstantTaskExecutorRule
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
+    androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
+
+    //kotlinx-coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:+")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:+")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:+")
+
+
+    //MockK
+    testImplementation("io.mockk:mockk-android:1.13.17")
+    testImplementation("io.mockk:mockk-agent:1.13.17")
 }

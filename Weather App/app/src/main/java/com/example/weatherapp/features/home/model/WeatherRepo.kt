@@ -1,6 +1,6 @@
 package com.example.weatherapp.features.home.model
 
-import com.example.weatherapp.network.RemoteDataSource
+import com.example.weatherapp.data.network.RemoteDataSource
 import kotlinx.coroutines.flow.Flow
 
 class WeatherRepo private constructor(

@@ -2,7 +2,6 @@ package com.example.weatherapp.features.notification.viewmodel
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -23,6 +22,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
@@ -91,7 +91,7 @@ class NotificationViewModel(private val repo: NotificationRepo) : ViewModel() {
                     repo.addNotification(notificationModel)
                 }
             } catch (e: Exception) {
-                Log.e("TAG", e.toString())
+                Timber.tag("TAG").e(e.toString())
             }
         }
     }
@@ -103,7 +103,7 @@ class NotificationViewModel(private val repo: NotificationRepo) : ViewModel() {
                     repo.deleteNotification(notificationModel)
                 }
             } catch (e: Exception) {
-                Log.e("TAG", e.toString())
+                Timber.tag("TAG").e(e.toString())
             }
         }
     }
@@ -122,7 +122,7 @@ class NotificationViewModel(private val repo: NotificationRepo) : ViewModel() {
                         mutList.value = NotificationResponse.SuccessNotification(it)
                     }
             } catch (e: Exception) {
-                Log.e("TAG", e.toString())
+                Timber.tag("TAG").e(e.toString())
                 mutList.value = NotificationResponse.FailureNotification(e)
                 _toastEvent.emit("Error DAO: ${e.message}")
             }

@@ -15,8 +15,8 @@ import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.main.viewmodel.LocationViewModel
 import com.example.weatherapp.features.notification.viewmodel.NotificationViewModel
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
-import com.example.weatherapp.network.RetrofitHelper
-import com.example.weatherapp.network.RemoteDataSource
+import com.example.weatherapp.data.network.RetrofitHelper
+import com.example.weatherapp.data.network.RemoteDataSource
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

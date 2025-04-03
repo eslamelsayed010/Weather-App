@@ -1,13 +1,12 @@
 package com.example.weatherapp.features.favorite.model
 
+import com.example.weatherapp.core.DataSource
 import com.example.weatherapp.features.home.model.WeatherModel
-import com.example.weatherapp.local.LocalDataSource
-import com.example.weatherapp.network.RemoteDataSource
 import kotlinx.coroutines.flow.Flow
 
 class FavoriteRepo private constructor(
-    private val remoteDataSource: RemoteDataSource,
-    private val localDataSource: LocalDataSource
+    private val remoteDataSource: DataSource,
+    private val localDataSource: DataSource
 ) {
     fun getCurrentWeather(
         lat: Double,
@@ -18,7 +17,7 @@ class FavoriteRepo private constructor(
         return remoteDataSource.getCurrentWeather(lat, lon, unit, lang)
     }
 
-    fun getFavorites(): Flow<List<FavoriteModel>> {
+    suspend fun getFavorites(): Flow<List<FavoriteModel>> {
         return localDataSource.getFavorites()
     }
 
@@ -35,8 +34,8 @@ class FavoriteRepo private constructor(
         private var INSTANCE: FavoriteRepo? = null
 
         fun getInstance(
-            remoteDataSource: RemoteDataSource,
-            localDataSource: LocalDataSource
+            remoteDataSource: DataSource,
+            localDataSource: DataSource
         ): FavoriteRepo {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: FavoriteRepo(remoteDataSource, localDataSource).also {
