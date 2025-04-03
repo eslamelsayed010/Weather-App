@@ -29,10 +29,14 @@ import com.example.weatherapp.core.CustomError
 import com.example.weatherapp.core.NavViewRoute
 import com.example.weatherapp.features.favorite.model.FavoriteResponse
 import com.example.weatherapp.features.favorite.viewmodel.FavoriteViewModel
-import com.example.weatherapp.features.main.views.FavoriteItem
 
 @Composable
-fun FavoriteView(navController: NavHostController, favoriteViewModel: FavoriteViewModel) {
+fun FavoriteView(
+    navController: NavHostController,
+    favoriteViewModel: FavoriteViewModel,
+    unit: String,
+    lang: String
+) {
     val context = LocalContext.current
 
     favoriteViewModel.getLocalData()
@@ -69,7 +73,11 @@ fun FavoriteView(navController: NavHostController, favoriteViewModel: FavoriteVi
                 ) {
                     items(data.size) { index ->
                         FavoriteItem(
+                            favoriteViewModel,
                             data[index],
+                            navController,
+                            unit,
+                            lang,
                             onDelete = {
                                 favoriteViewModel.deleteFromFavorite(data[index])
                                 Toast.makeText(
@@ -78,10 +86,12 @@ fun FavoriteView(navController: NavHostController, favoriteViewModel: FavoriteVi
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
-                            )
+                        )
                     }
                 }
             }
+
+            else -> TODO()
         }
     }
 }

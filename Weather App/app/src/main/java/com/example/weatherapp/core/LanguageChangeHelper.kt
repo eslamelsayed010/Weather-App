@@ -17,6 +17,7 @@ class LanguageChangeHelper {
 
         val effectiveLanguageCode = if (languageCode == "Default") {
             getDeviceDefaultLanguage()
+            "en"
         } else {
             languageCode
         }

@@ -16,7 +16,7 @@ import com.example.weatherapp.features.main.viewmodel.LocationViewModel
 import com.example.weatherapp.features.notification.viewmodel.NotificationViewModel
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
 import com.example.weatherapp.network.RetrofitHelper
-import com.example.weatherapp.network.WeatherRemoteDataSource
+import com.example.weatherapp.network.RemoteDataSource
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -50,7 +50,7 @@ fun SetupHomeLocation(
     }
     if (finalLatitude != 0.0 && finalLongitude != 0.0) {
         val homeFactory = HomeFactory(
-            WeatherRepo.getInstance(WeatherRemoteDataSource(RetrofitHelper)),
+            WeatherRepo.getInstance(RemoteDataSource(RetrofitHelper)),
             finalLatitude,
             finalLongitude,
             unit,
@@ -64,7 +64,9 @@ fun SetupHomeLocation(
             settingsViewModel,
             locationViewModel,
             notificationViewModel,
-            favoriteViewModel
+            favoriteViewModel,
+            unit,
+            lang
         )
     } else
         CustomAnmiLoading()

@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import com.example.weatherapp.features.favorite.viewmodel.FavoriteViewModel
 import com.example.weatherapp.features.favorite.views.FavoriteMapView
 import com.example.weatherapp.features.favorite.views.FavoriteView
+import com.example.weatherapp.features.favorite.views.SelectedFav
 import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.home.views.HomeView
 import com.example.weatherapp.features.main.viewmodel.LocationViewModel
@@ -26,7 +27,9 @@ fun NavigationGraph(
     settingsViewModel: SettingsViewModel,
     locationViewModel: LocationViewModel,
     notificationViewModel: NotificationViewModel,
-    favoriteViewModel: FavoriteViewModel
+    favoriteViewModel: FavoriteViewModel,
+    unit: String,
+    lang: String
 ) {
     NavHost(navController, startDestination = NavViewRoute.HOME) {
         composable(NavViewRoute.HOME) { HomeView(homeViewModel) }
@@ -37,8 +40,7 @@ fun NavigationGraph(
         }
         composable(NavViewRoute.MAP) { MapView(navController, homeViewModel, settingsViewModel) }
         composable(NavViewRoute.NOTIFICATION) { NotificationView(notificationViewModel) }
-
-        composable(NavViewRoute.FAVORITE) { FavoriteView(navController, favoriteViewModel) }
+        composable(NavViewRoute.FAVORITE) { FavoriteView(navController, favoriteViewModel, unit, lang) }
         composable(NavViewRoute.FAV_MAP) {
             FavoriteMapView(
                 navController,
@@ -46,6 +48,8 @@ fun NavigationGraph(
                 favoriteViewModel
             )
         }
-        composable(NavViewRoute.SELECTED_FAV) { HomeView(homeViewModel) }
+
+        composable(NavViewRoute.SELECTED_FAV) { SelectedFav(favoriteViewModel) }
+
     }
 }

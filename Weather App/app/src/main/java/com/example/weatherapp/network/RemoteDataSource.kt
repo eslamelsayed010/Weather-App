@@ -5,7 +5,7 @@ import com.example.weatherapp.features.home.model.WeatherModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class WeatherRemoteDataSource(private val service: RetrofitHelper) {
+class RemoteDataSource(private val service: RetrofitHelper) {
     fun getWeatherForecast(
         lat: Double,
         lon: Double,

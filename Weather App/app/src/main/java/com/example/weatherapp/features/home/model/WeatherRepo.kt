@@ -1,20 +1,11 @@
 package com.example.weatherapp.features.home.model
 
-import com.example.weatherapp.network.WeatherRemoteDataSource
+import com.example.weatherapp.network.RemoteDataSource
 import kotlinx.coroutines.flow.Flow
 
 class WeatherRepo private constructor(
-    private val remoteDataSource: WeatherRemoteDataSource
+    private val remoteDataSource: RemoteDataSource
 ) {
-    fun getWeatherForecast(
-        lat: Double,
-        lon: Double,
-        unit: String,
-        lang: String
-    ): Flow<ForecastModel> {
-        return remoteDataSource.getWeatherForecast(lat, lon, unit, lang)
-    }
-
     fun getCurrentWeather(
         lat: Double,
         lon: Double,
@@ -28,7 +19,7 @@ class WeatherRepo private constructor(
         private var INSTANCE: WeatherRepo? = null
 
         fun getInstance(
-            remoteDataSource: WeatherRemoteDataSource
+            remoteDataSource: RemoteDataSource
         ): WeatherRepo {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: WeatherRepo(remoteDataSource).also {

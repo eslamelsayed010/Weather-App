@@ -1,4 +1,4 @@
-package com.example.weatherapp.features.main.views
+package com.example.weatherapp.features.favorite.views
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
@@ -43,16 +43,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.weatherapp.R
 import com.example.weatherapp.core.AppColors
+import com.example.weatherapp.core.NavViewRoute
 import com.example.weatherapp.features.favorite.model.FavoriteModel
+import com.example.weatherapp.features.favorite.viewmodel.FavoriteViewModel
 import kotlin.math.roundToInt
 
 @Composable
 fun FavoriteItem(
+    favoriteViewModel: FavoriteViewModel,
     favoriteModel: FavoriteModel,
+    navController: NavHostController,
+    unit: String,
+    lang: String,
     onDelete: () -> Unit
-    ) {
+) {
     var offsetX by remember { mutableFloatStateOf(0f) }
     val animatedOffsetX by animateFloatAsState(targetValue = offsetX)
     val density = LocalDensity.current
@@ -135,7 +142,12 @@ fun FavoriteItem(
         ) {
             Box(
                 modifier = Modifier
-                    .clickable {  }
+                    .clickable {
+                        favoriteViewModel.unit = unit
+                        favoriteViewModel.lang = lang
+                        favoriteViewModel.refreshWeatherData(favoriteModel.lat, favoriteModel.lon)
+                        navController.navigate(NavViewRoute.SELECTED_FAV)
+                    }
                     .shadow(10.dp, RoundedCornerShape(50.dp))
                     .border(2.dp, Color(0xff201738), RoundedCornerShape(50.dp))
                     .background(Color.Transparent.copy(alpha = 0.3f), RoundedCornerShape(50.dp))

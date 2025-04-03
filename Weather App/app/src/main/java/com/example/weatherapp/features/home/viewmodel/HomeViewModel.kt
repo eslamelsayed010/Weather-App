@@ -35,8 +35,6 @@ class HomeViewModel(
     private var mutList = MutableStateFlow<HomeResponse>(HomeResponse.LoadingHome)
     val weatherModelResponse = mutList.asStateFlow()
 
-
-
     var current3HourForecast: MutableLiveData<List<ThreeHourForecast>> = MutableLiveData()
     var fiveDayForecast: MutableLiveData<List<DailyForecast>> = MutableLiveData()
 

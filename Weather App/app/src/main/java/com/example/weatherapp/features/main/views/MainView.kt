@@ -25,14 +25,19 @@ fun MainView(
     settingsViewModel: SettingsViewModel,
     locationViewModel: LocationViewModel,
     notificationViewModel: NotificationViewModel,
-    favoriteViewModel: FavoriteViewModel
+    favoriteViewModel: FavoriteViewModel,
+    unit: String,
+    lang: String
 ) {
     val navController = rememberNavController()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val showBottomBar = currentRoute != NavViewRoute.MAP && currentRoute != NavViewRoute.FAV_MAP
+    val showBottomBar = currentRoute != NavViewRoute.MAP &&
+            currentRoute != NavViewRoute.FAV_MAP &&
+            currentRoute != NavViewRoute.SELECTED_FAV
+
 
     Scaffold(
         bottomBar = {
@@ -48,7 +53,9 @@ fun MainView(
                 settingsViewModel,
                 locationViewModel,
                 notificationViewModel,
-                favoriteViewModel
+                favoriteViewModel,
+                unit,
+                lang
             )
         }
     }

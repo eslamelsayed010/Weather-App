@@ -29,6 +29,8 @@ import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModelFactory
 import com.example.weatherapp.local.AppDatabase
 import com.example.weatherapp.local.LocalDataSource
+import com.example.weatherapp.network.RemoteDataSource
+import com.example.weatherapp.network.RetrofitHelper
 
 @Suppress("DEPRECATION")
 class MainActivity : ComponentActivity() {
@@ -79,6 +81,7 @@ class MainActivity : ComponentActivity() {
             this,
             FavoriteViewModelFactory(
                 FavoriteRepo.getInstance(
+                    RemoteDataSource(RetrofitHelper),
                     LocalDataSource(
                         AppDatabase
                             .getInstance(this)
