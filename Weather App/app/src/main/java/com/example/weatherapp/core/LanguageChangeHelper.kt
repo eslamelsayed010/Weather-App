@@ -3,13 +3,16 @@
 package com.example.weatherapp.core
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.LocaleManager
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.LocaleList
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import com.example.weatherapp.MainActivity
 import java.util.Locale
 
 class LanguageChangeHelper {
@@ -36,7 +39,11 @@ class LanguageChangeHelper {
             context.getSystemService(LocaleManager::class.java).applicationLocales =
                 LocaleList.forLanguageTags(effectiveLanguageCode)
         } else {
-            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(effectiveLanguageCode))
+            AppCompatDelegate.setApplicationLocales(
+                LocaleListCompat.forLanguageTags(
+                    effectiveLanguageCode
+                )
+            )
         }
 
         if (context is AppCompatActivity) {
@@ -88,5 +95,16 @@ class LanguageChangeHelper {
     fun loadUnitPreference(context: Context): String {
         val sharedPref = context.getSharedPreferences("AppLanguagePrefs", Context.MODE_PRIVATE)
         return sharedPref.getString("unit", "metric") ?: "metric"
+    }
+
+    fun restartApp(context: Context) {
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra("SKIP_SPLASH", true)
+        }
+        context.startActivity(intent)
+        if (context is Activity) {
+            context.finish()
+        }
     }
 }

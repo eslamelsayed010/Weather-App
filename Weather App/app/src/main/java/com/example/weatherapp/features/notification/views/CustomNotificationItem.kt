@@ -48,6 +48,7 @@ fun CustomNotificationItem(notificationViewModel: NotificationViewModel) {
                         progress = progress,
                         onDelete = {
                             notificationViewModel.deleteNotification(element)
+                            notificationViewModel.cancelScheduledNotification(context, element.date)
                             Toast.makeText(
                                 context,
                                 context.getString(R.string.Deleted),

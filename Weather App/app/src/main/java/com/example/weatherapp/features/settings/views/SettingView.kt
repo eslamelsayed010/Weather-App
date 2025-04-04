@@ -138,6 +138,7 @@ fun SettingView(
 
                         languageChangeHelper.saveLanguagePreference(context, languageCode)
                         languageChangeHelper.changeLanguage(context, languageCode)
+                        languageChangeHelper.restartApp(context)
 
                         homeViewModel.refreshWeatherData()
                     }

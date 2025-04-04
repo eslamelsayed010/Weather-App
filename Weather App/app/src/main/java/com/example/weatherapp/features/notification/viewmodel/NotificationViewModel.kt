@@ -44,10 +44,11 @@ class NotificationViewModel(private val repo: NotificationRepo) : ViewModel() {
         hour: Int,
         minute: Int,
         title: String,
-        message: String
+        message: String,
+        notificationId: String = System.currentTimeMillis().toString()
     ) {
         val currentTime = LocalDateTime.now()
-        val currentDayOfWeek = currentTime.dayOfWeek.value % 7 // Convert to 0-6 format (0 = Sunday)
+        val currentDayOfWeek = currentTime.dayOfWeek.value % 7
 
         val daysToAdd = if (day > currentDayOfWeek) {
             day - currentDayOfWeek
@@ -70,18 +71,29 @@ class NotificationViewModel(private val repo: NotificationRepo) : ViewModel() {
             .toEpochMilli() - currentTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
         val inputData = workDataOf(
-            "NOTIFICATION_TITLE" to title, "NOTIFICATION_MESSAGE" to message
+            "NOTIFICATION_TITLE" to title,
+            "NOTIFICATION_MESSAGE" to message,
+            "NOTIFICATION_ID" to notificationId
         )
 
         val notificationRequest = OneTimeWorkRequestBuilder<NotificationWorker>().setInitialDelay(
             delayInMillis, TimeUnit.MILLISECONDS
         ).setInputData(inputData).build()
 
+        val workName = "scheduled_notification_$notificationId"
+
         WorkManager.getInstance(context).enqueueUniqueWork(
-            "scheduled_notification_${System.currentTimeMillis()}",
+            workName,
             ExistingWorkPolicy.REPLACE,
             notificationRequest
         )
+    }
+
+    fun cancelScheduledNotification(context: Context, notificationId: String) {
+        val workName = "scheduled_notification_$notificationId"
+        WorkManager.getInstance(context).cancelUniqueWork(workName)
+
+        Timber.tag("NotificationViewModel").d("Cancelled notification with ID: $notificationId")
     }
 
     fun addNotification(notificationModel: NotificationModel) {
@@ -102,8 +114,10 @@ class NotificationViewModel(private val repo: NotificationRepo) : ViewModel() {
                 withContext(Dispatchers.IO) {
                     repo.deleteNotification(notificationModel)
                 }
+                _toastEvent.emit("Notification deleted successfully")
             } catch (e: Exception) {
                 Timber.tag("TAG").e(e.toString())
+                _toastEvent.emit("Error deleting notification: ${e.message}")
             }
         }
     }
@@ -116,7 +130,6 @@ class NotificationViewModel(private val repo: NotificationRepo) : ViewModel() {
                     .catch { ex ->
                         mutList.value = NotificationResponse.FailureNotification(ex)
                         _toastEvent.emit("Error From DAO: ${ex.message}")
-
                     }
                     .collect {
                         mutList.value = NotificationResponse.SuccessNotification(it)

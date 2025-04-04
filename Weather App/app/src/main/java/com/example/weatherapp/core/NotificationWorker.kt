@@ -10,22 +10,23 @@ import androidx.core.app.NotificationCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.weatherapp.MainActivity
+import timber.log.Timber
 
 class NotificationWorker(
     private val context: Context, workerParams: WorkerParameters
 ) : Worker(context, workerParams) {
 
     override fun doWork(): Result {
-
         val title = inputData.getString("NOTIFICATION_TITLE") ?: "Reminder"
         val message = inputData.getString("NOTIFICATION_MESSAGE") ?: "Your scheduled notification"
+        val notificationId = inputData.getLong("NOTIFICATION_ID", System.currentTimeMillis())
 
-        showNotification(title, message)
+        showNotification(title, message, notificationId.toInt())
 
         return Result.success()
     }
 
-    private fun showNotification(title: String, message: String) {
+    private fun showNotification(title: String, message: String, notificationId: Int) {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -42,7 +43,7 @@ class NotificationWorker(
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val pendingIntent = PendingIntent.getActivity(
-            context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            context, notificationId, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
@@ -51,15 +52,14 @@ class NotificationWorker(
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
-            .setContentIntent(pendingIntent)  // Set the pending intent here
+            .setContentIntent(pendingIntent)
             .build()
 
-        notificationManager.notify(NOTIFICATION_ID, notification)
+        Timber.d("Showing notification with ID: $notificationId")
+        notificationManager.notify(notificationId, notification)
     }
-
 
     companion object {
         private const val CHANNEL_ID = "scheduled_notification_channel"
-        private const val NOTIFICATION_ID = 1
     }
 }

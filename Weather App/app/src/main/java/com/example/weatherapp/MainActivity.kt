@@ -101,14 +101,18 @@ class MainActivity : ComponentActivity() {
         val savedUnit = languageHelper.loadUnitPreference(this)
         languageHelper.changeLanguage(this, savedLanguage)
 
-        installSplashScreen().apply {
-            setKeepOnScreenCondition { keepSplashScreen }
+        val skipSplash = intent.getBooleanExtra("SKIP_SPLASH", false)
+
+        if (!skipSplash) {
+            installSplashScreen().apply {
+                setKeepOnScreenCondition { keepSplashScreen }
+            }
+            lifecycleScope.launch {
+                delay(3000L)
+                keepSplashScreen = false
+            }
         }
 
-        lifecycleScope.launch {
-            delay(3000L)
-            keepSplashScreen = false
-        }
         setContent {
             val location =
                 locationViewModel.locationState.value ?: locationViewModel.getDefaultLocation()

@@ -121,7 +121,8 @@ fun NotificationBody(notificationViewModel: NotificationViewModel) {
                     selectedHour,
                     selectedMinute,
                     notificationTitle,
-                    notificationMessage
+                    notificationMessage,
+                    dateText
                 )
                 notificationViewModel.addNotification(
                     NotificationModel(
