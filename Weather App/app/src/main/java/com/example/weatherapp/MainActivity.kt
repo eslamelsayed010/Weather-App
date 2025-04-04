@@ -67,42 +67,31 @@ class MainActivity : ComponentActivity() {
 
         window.statusBarColor = AppColors.BackgroundColor.toArgb()
 
-        // Initialize network connectivity monitor
         networkConnectivityMonitor = NetworkConnectivityMonitor(this)
         networkConnectivityMonitor.startMonitoring()
 
         locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
-        val settingsViewModel =
-            ViewModelProvider(
-                this,
-                SettingsViewModelFactory(
-                    UserPreferencesRepository(this),
-                    this
-                )
-            )[SettingsViewModel::class.java]
+        val settingsViewModel = ViewModelProvider(
+            this, SettingsViewModelFactory(
+                UserPreferencesRepository(this), this
+            )
+        )[SettingsViewModel::class.java]
 
         val notificationViewModel = ViewModelProvider(
-            this,
-            NotificationViewModelFactory(
+            this, NotificationViewModelFactory(
                 NotificationRepo.getInstance(
                     LocalDataSource(
-                        AppDatabase
-                            .getInstance(this)
-                            .dao()
+                        AppDatabase.getInstance(this).dao()
                     )
                 )
             )
         )[NotificationViewModel::class.java]
 
         val favoriteViewModel = ViewModelProvider(
-            this,
-            FavoriteViewModelFactory(
+            this, FavoriteViewModelFactory(
                 FavoriteRepo.getInstance(
-                    RemoteDataSource(RetrofitHelper),
-                    LocalDataSource(
-                        AppDatabase
-                            .getInstance(this)
-                            .dao()
+                    RemoteDataSource(RetrofitHelper), LocalDataSource(
+                        AppDatabase.getInstance(this).dao()
                     )
                 )
             )
@@ -123,8 +112,7 @@ class MainActivity : ComponentActivity() {
                 delay(3000L)
                 keepSplashScreen = false
             }
-        } else
-            keepSplashScreen = false
+        } else keepSplashScreen = false
 
         setContent {
             val location =
@@ -138,15 +126,11 @@ class MainActivity : ComponentActivity() {
             }
 
             if (showNetworkDialog.value) {
-                NetworkAlertDialog(
-                    onDismiss = {
-                        showNetworkDialog.value = false
-                    },
-                    onConfirm = {
-                        // Retry connection or refresh data
-                        showNetworkDialog.value = false
-                    }
-                )
+                NetworkAlertDialog(onDismiss = {
+                    showNetworkDialog.value = false
+                }, onConfirm = {
+                    showNetworkDialog.value = false
+                })
             }
 
             SetupHomeLocation(
@@ -174,23 +158,16 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == localPermissionGpsCode)
-            if (grantResults.isNotEmpty() &&
-                grantResults[0] == PackageManager.PERMISSION_GRANTED
-            )
-                locationViewModel.getFreshLocation()
+        if (requestCode == localPermissionGpsCode) if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) locationViewModel.getFreshLocation()
     }
 
     private fun checkNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.POST_NOTIFICATIONS
+                    this, Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
