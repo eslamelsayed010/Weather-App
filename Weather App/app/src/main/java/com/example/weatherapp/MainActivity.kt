@@ -130,16 +130,13 @@ class MainActivity : ComponentActivity() {
             val location =
                 locationViewModel.locationState.value ?: locationViewModel.getDefaultLocation()
 
-            // Observe network connectivity state
             val isNetworkConnected = networkConnectivityMonitor.isConnected.collectAsState()
             val showNetworkDialog = remember { mutableStateOf(false) }
 
-            // Update dialog visibility when network state changes
             LaunchedEffect(isNetworkConnected.value) {
                 showNetworkDialog.value = !isNetworkConnected.value
             }
 
-            // Show alert dialog if network is disconnected
             if (showNetworkDialog.value) {
                 NetworkAlertDialog(
                     onDismiss = {
