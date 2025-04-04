@@ -1,5 +1,6 @@
 package com.example.weatherapp.features.home.viewmodel
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,6 +26,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
+@SuppressLint("LogNotTimber")
 class HomeViewModel(
     private val repo: WeatherRepo,
     var lat: Double,
@@ -50,6 +52,7 @@ class HomeViewModel(
         getCurrentWeather()
     }
 
+
     private fun getWeatherForecast() {
         viewModelScope.launch {
             try {
@@ -72,8 +75,8 @@ class HomeViewModel(
     private fun getCurrentWeather() {
         viewModelScope.launch {
             try {
-                val forecasts = repo.getCurrentWeather(lat, lon, unit, lang)
-                forecasts
+                val currentWeather = repo.getCurrentWeather(lat, lon, unit, lang)
+                currentWeather
                     .catch { ex ->
                         mutList.value = HomeResponse.FailureHome(ex)
                         _toastEvent.emit("Error From Response: ${ex.message}")
