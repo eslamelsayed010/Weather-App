@@ -12,9 +12,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.weatherapp.core.AppColors
 import com.example.weatherapp.core.LanguageChangeHelper
+import com.example.weatherapp.data.local.AppDatabase
+import com.example.weatherapp.data.local.LocalDataSource
+import com.example.weatherapp.data.network.RemoteDataSource
+import com.example.weatherapp.data.network.RetrofitHelper
 import com.example.weatherapp.features.favorite.model.FavoriteRepo
 import com.example.weatherapp.features.favorite.viewmodel.FavoriteViewModel
 import com.example.weatherapp.features.favorite.viewmodel.FavoriteViewModelFactory
@@ -26,15 +32,14 @@ import com.example.weatherapp.features.notification.viewmodel.NotificationViewMo
 import com.example.weatherapp.features.settings.repo.UserPreferencesRepository
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModelFactory
-import com.example.weatherapp.data.local.AppDatabase
-import com.example.weatherapp.data.local.LocalDataSource
-import com.example.weatherapp.data.network.RemoteDataSource
-import com.example.weatherapp.data.network.RetrofitHelper
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @Suppress("DEPRECATION")
 class MainActivity : ComponentActivity() {
 
+    private var keepSplashScreen = true
     private lateinit var locationViewModel: LocationViewModel
     private var localPermissionGpsCode = 2
     private val requestPermissionLauncher = registerForActivityResult(
@@ -96,6 +101,14 @@ class MainActivity : ComponentActivity() {
         val savedUnit = languageHelper.loadUnitPreference(this)
         languageHelper.changeLanguage(this, savedLanguage)
 
+        installSplashScreen().apply {
+            setKeepOnScreenCondition { keepSplashScreen }
+        }
+
+        lifecycleScope.launch {
+            delay(3000L)
+            keepSplashScreen = false
+        }
         setContent {
             val location =
                 locationViewModel.locationState.value ?: locationViewModel.getDefaultLocation()

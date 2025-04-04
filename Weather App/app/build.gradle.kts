@@ -141,7 +141,6 @@ dependencies {
     androidTestImplementation("org.hamcrest:hamcrest:2.2")
     androidTestImplementation("org.hamcrest:hamcrest-library:2.2")
 
-
     // AndroidX and Robolectric
     testImplementation("androidx.test.ext:junit-ktx:+")
     testImplementation("androidx.test:core-ktx:+")
@@ -156,8 +155,10 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:+")
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:+")
 
-
     //MockK
     testImplementation("io.mockk:mockk-android:1.13.17")
     testImplementation("io.mockk:mockk-agent:1.13.17")
+
+    //Splash screen
+    implementation("androidx.core:core-splashscreen:1.0.1")
 }

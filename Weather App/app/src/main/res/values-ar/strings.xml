@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">الطقس</string>
+    <string name="app_name">Météo</string>
 
     <!--home-->
     <string name="Next_five_Days">الأيام الخمسة القادمة</string>
