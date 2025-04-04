@@ -86,4 +86,10 @@
     <string name="add_to_fav">أضف إلى المفضلة</string>
     <string name="select_location">حدد الموقع</string>
     <string name="empty_list">ليس لديك أي مفضلات</string>
+
+    <!-- Add these to your strings.xml file -->
+    <string name="no_internet_title">لا يوجد اتصال بالإنترنت</string>
+    <string name="no_internet_message">يرجى التحقق من اتصالك بالإنترنت ومحاولة مرة أخرى.</string>
+    <string name="retry">إعادة المحاولة</string>
+    <string name="close">يغلق</string>
 </resources>

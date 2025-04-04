@@ -7,7 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.MainActivity
-import com.example.weatherapp.core.CustomAnmiLoading
+import com.example.weatherapp.data.network.RemoteDataSource
+import com.example.weatherapp.data.network.RetrofitHelper
 import com.example.weatherapp.features.favorite.viewmodel.FavoriteViewModel
 import com.example.weatherapp.features.home.model.WeatherRepo
 import com.example.weatherapp.features.home.viewmodel.HomeFactory
@@ -15,8 +16,6 @@ import com.example.weatherapp.features.home.viewmodel.HomeViewModel
 import com.example.weatherapp.features.main.viewmodel.LocationViewModel
 import com.example.weatherapp.features.notification.viewmodel.NotificationViewModel
 import com.example.weatherapp.features.settings.viewmodel.SettingsViewModel
-import com.example.weatherapp.data.network.RetrofitHelper
-import com.example.weatherapp.data.network.RemoteDataSource
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -48,26 +47,26 @@ fun SetupHomeLocation(
             Pair(0.0, 0.0)
         }
     }
-    if (finalLatitude != 0.0 && finalLongitude != 0.0) {
-        val homeFactory = HomeFactory(
-            WeatherRepo.getInstance(RemoteDataSource(RetrofitHelper)),
-            finalLatitude,
-            finalLongitude,
-            unit,
-            lang
-        )
-        val weatherViewModel =
-            ViewModelProvider(requiredActivity, homeFactory)[HomeViewModel::class.java]
+//    if (finalLatitude != 0.0 && finalLongitude != 0.0) {
+    val homeFactory = HomeFactory(
+        WeatherRepo.getInstance(RemoteDataSource(RetrofitHelper)),
+        finalLatitude,
+        finalLongitude,
+        unit,
+        lang
+    )
+    val weatherViewModel =
+        ViewModelProvider(requiredActivity, homeFactory)[HomeViewModel::class.java]
 
-        MainView(
-            weatherViewModel,
-            settingsViewModel,
-            locationViewModel,
-            notificationViewModel,
-            favoriteViewModel,
-            unit,
-            lang
-        )
-    } else
-        CustomAnmiLoading()
+    MainView(
+        weatherViewModel,
+        settingsViewModel,
+        locationViewModel,
+        notificationViewModel,
+        favoriteViewModel,
+        unit,
+        lang
+    )
+//    } else
+//        CustomAnmiLoading()
 }
